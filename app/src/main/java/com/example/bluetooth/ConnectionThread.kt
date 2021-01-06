@@ -10,15 +10,18 @@ import java.util.*
 
 class ConnectionThread(bluetoothDevice: BluetoothDevice, val bluetoothAdapter: BluetoothAdapter) : Thread() {
 
-    val uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
+    val uuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
+
     lateinit var socket : BluetoothSocket
 
     init {
         var bluetoothSocket : BluetoothSocket? = null
         val device = bluetoothDevice
+
         try {
             bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
         } catch (e : Exception){    }
+
         bluetoothSocket?.let {
             socket = it
         }
@@ -26,15 +29,30 @@ class ConnectionThread(bluetoothDevice: BluetoothDevice, val bluetoothAdapter: B
 
     override fun run() {
         super.run()
+
         bluetoothAdapter.cancelDiscovery()
+        println("Trying to connect to device")
+
         try {
             socket.connect()
         }catch (connectException : IOException){
+
+            println("Error connecting to device")
+
             try {
                 socket.close()
             }catch (closeException : IOException ){ }
+
             return
+
         }
+
+        println("Success connecting to device")
+
+        val dataThread = DataThread(socket)
+
+        dataThread.start()
+
     }
 
     override fun interrupt() {
