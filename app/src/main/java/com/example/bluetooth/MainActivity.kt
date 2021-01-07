@@ -3,8 +3,6 @@ package com.example.bluetooth
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,17 +55,11 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(intent, 1)
             }
 
-            val listDevices = bluetoothAdapter.bondedDevices.toMutableList()
-
-            listDevices.forEach {
-                Log.i("BtDevice", "onCreate: ${it.name}")
-            }
-
             // Affiche les appareils appairée
             recView.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)
-                adapter = RecyclerViewAdapter(listDevices)
+                adapter = RecyclerViewAdapter(context, bluetoothAdapter)
             }
 
         }

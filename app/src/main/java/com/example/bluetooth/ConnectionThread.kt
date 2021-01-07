@@ -8,7 +8,7 @@ import java.lang.Exception
 import java.net.ConnectException
 import java.util.*
 
-class ConnectionThread(bluetoothDevice: BluetoothDevice, val bluetoothAdapter: BluetoothAdapter) : Thread() {
+class ConnectionThread(bluetoothDevice: BluetoothDevice) : Thread() {
 
     val uuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
 
@@ -30,7 +30,6 @@ class ConnectionThread(bluetoothDevice: BluetoothDevice, val bluetoothAdapter: B
     override fun run() {
         super.run()
 
-        bluetoothAdapter.cancelDiscovery()
 //        println("Trying to connect to device")
 
         try {

@@ -42,6 +42,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
 
+//    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+//    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_extension_version"
+
+
     testImplementation 'junit:junit:4.13.1'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
