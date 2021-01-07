@@ -31,13 +31,13 @@ class ConnectionThread(bluetoothDevice: BluetoothDevice, val bluetoothAdapter: B
         super.run()
 
         bluetoothAdapter.cancelDiscovery()
-        println("Trying to connect to device")
+//        println("Trying to connect to device")
 
         try {
             socket.connect()
         }catch (connectException : IOException){
 
-            println("Error connecting to device")
+//            println("Error connecting to device")
 
             try {
                 socket.close()
@@ -47,7 +47,7 @@ class ConnectionThread(bluetoothDevice: BluetoothDevice, val bluetoothAdapter: B
 
         }
 
-        println("Success connecting to device")
+//        println("Success connecting to device")
 
         val dataThread = DataThread(socket)
 

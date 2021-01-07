@@ -21,18 +21,19 @@ class DataThread(bluetoothSocket: BluetoothSocket) : Thread() {
 
         while (true) {
 
-            val nbBytes = try{
-                inputStream.read(buffer)
-            } catch(e: IOException){
-                Log.d("READ_TAG", "IOException")
-            }
+//            val nbBytes = try{
+//                inputStream.read(buffer)
+//            } catch(e: IOException){
+//                Log.d("READ_TAG", "IOException")
+//            }
 
-            println("nbBytes : $nbBytes")
-            for (i in 0 until nbBytes) {
-                println("Byte $i: ${buffer[i].toInt()}")
-            }
+//            println("nbBytes : $nbBytes")
+//            for (i in 0 until nbBytes) {
+//                println("Byte $i: ${buffer[i].toInt()}")
+//            }
 
             // sleep(250)
+
         }
 
     }
