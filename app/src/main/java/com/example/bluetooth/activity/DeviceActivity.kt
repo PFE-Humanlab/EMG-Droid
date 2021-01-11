@@ -3,24 +3,54 @@ package com.example.bluetooth.activity
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.bluetooth.R
+import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
-import java.lang.Thread.sleep
 import java.util.*
 
 class DeviceActivity : AppCompatActivity() {
+
+    //    val values =  mutableListOf<Int>()
+    var lastXValue = 0.0
+
+    val series = LineGraphSeries<DataPoint>()
+
+    fun updateGraphAndText(value: Int) {
+
+        val textView = findViewById<TextView>(R.id.deviceLatestValue)
+        textView.text = value.toString()
+
+//        values.add(value)
+
+        lastXValue += 1
+
+        series.appendData(DataPoint(lastXValue, value.toDouble()), true, 100)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device)
 
-        Log.i("WhereAmI", "onCreate: ")
+        val graph = findViewById<GraphView>(R.id.graph)
+        graph.addSeries(series)
+
+        graph.viewport.isXAxisBoundsManual = true
+        graph.viewport.setMinX(0.0)
+        graph.viewport.setMaxX(100.0)
+
+        graph.viewport.isYAxisBoundsManual = true
+        graph.viewport.setMinY(0.0)
+        graph.viewport.setMaxY(800.0)
+
+//        Log.i("WhereAmI", "onCreate: ")
 
         val device = intent.getParcelableExtra<BluetoothDevice>("device")
 
@@ -28,8 +58,6 @@ class DeviceActivity : AppCompatActivity() {
             // Todo : go back main menu
             return
         }
-
-        val textView = findViewById<TextView>(R.id.deviceLatestValue)
 
         lifecycleScope.launch(Dispatchers.IO) {
 
@@ -65,7 +93,7 @@ class DeviceActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     // update UI here
-                    textView.text = input.toString()
+                    updateGraphAndText(input)
                 }
             }
         }

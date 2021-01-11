@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BlueTooth</string>
+    <string name="bluetooth_icon">bluetooth icon</string>
 </resources>
