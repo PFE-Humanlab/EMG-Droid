@@ -2,11 +2,14 @@ package com.example.bluetooth.activity
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.bluetooth.R
+import com.example.bluetooth.game.activity.GameActivity
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -46,11 +49,12 @@ class DeviceActivity : AppCompatActivity() {
         graph.viewport.setMinX(0.0)
         graph.viewport.setMaxX(100.0)
 
-        graph.viewport.isYAxisBoundsManual = true
-        graph.viewport.setMinY(0.0)
-        graph.viewport.setMaxY(800.0)
-
-//        Log.i("WhereAmI", "onCreate: ")
+        val button = findViewById<Button>(R.id.startGameButton)
+        button.setOnClickListener {
+            val mContext = button.context
+            val intent = Intent(mContext , GameActivity::class.java)
+            mContext.startActivity(intent)
+        }
 
         val device = intent.getParcelableExtra<BluetoothDevice>("device")
 

@@ -17,6 +17,7 @@ class RecyclerViewAdapter(private val mContext : Context, private val bluetoothA
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.member_row, parent, false)
+
         return RecyclerViewHolder(view)
     }
 

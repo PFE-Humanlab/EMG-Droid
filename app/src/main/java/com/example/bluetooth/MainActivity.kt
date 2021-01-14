@@ -11,31 +11,6 @@ import com.example.bluetooth.recyclerView.RecyclerViewAdapter
 
 class MainActivity : AppCompatActivity() {
 
-//    fun getBluetoothAdapter(){
-
-//        var device: BluetoothDevice? = null
-//        if (bluetoothDevices.size > 0) {
-//            bluetoothDevices.forEach {
-//
-//                if (it.name == "HC-05") {
-//                    device = it
-//                }
-//
-//            }
-//        }
-
-//        println("From main thread")
-
-    // New thread for the communication with the arduino device
-
-//        device?.let {
-//            val connectionThread = ConnectionThread(it, bluetoothAdapter)
-//            connectionThread.start()
-//        }
-
-//    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
