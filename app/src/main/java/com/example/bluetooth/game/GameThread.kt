@@ -20,6 +20,10 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
         var startTime: Long
         var timeMillis: Long
         var waitTime: Long
+
+        var timeLastUpdate: Long = System.nanoTime()
+        var timeUpdate: Long
+
         val targetTime = (1000 / targetFPS).toLong()
 
         while (running) {
@@ -31,7 +35,10 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
                 // locking the canvas allows us to draw on to it
                 canvas = this.surfaceHolder.lockCanvas()
                 synchronized(surfaceHolder) {
-                    this.gameView.update()
+                    timeUpdate = System.nanoTime()
+                    this.gameView.update((timeUpdate - timeLastUpdate) / 1000000)
+                    timeLastUpdate = timeUpdate
+
                     this.gameView.draw(canvas!!)
                 }
             } catch (e: Exception) {
@@ -56,6 +63,8 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
                 }
             }
         }
+
+        Log.i("GameThread", "run: Over")
     }
 
     companion object {
