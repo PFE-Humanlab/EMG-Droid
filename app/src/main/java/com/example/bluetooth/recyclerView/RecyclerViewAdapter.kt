@@ -12,7 +12,7 @@ import com.example.bluetooth.activity.DeviceActivity
 
 class RecyclerViewAdapter(private val mContext : Context, private val bluetoothAdapter: BluetoothAdapter): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val deviceList = bluetoothAdapter.bondedDevices.toMutableList()
+    private val deviceList = bluetoothAdapter.bondedDevices.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -22,22 +22,10 @@ class RecyclerViewAdapter(private val mContext : Context, private val bluetoothA
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val textView = holder.itemView.findViewById<TextView>(R.id.elementName)
-
         val device = deviceList[position]
 
-        textView.text = device.name
+        (holder as RecyclerViewHolder).bind(device, bluetoothAdapter, mContext)
 
-        holder.itemView.setOnClickListener {
-
-            bluetoothAdapter.cancelDiscovery()
-
-            val intent = Intent(mContext , DeviceActivity::class.java)
-            intent.putExtra("device", device)
-            mContext.startActivity(intent)
-
-
-        }
     }
 
     override fun getItemCount(): Int {

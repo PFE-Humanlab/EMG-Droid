@@ -11,32 +11,53 @@ import com.example.bluetooth.recyclerView.RecyclerViewAdapter
 
 class MainActivity : AppCompatActivity() {
 
+    private var recView: RecyclerView? = null
+
+    private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+
+    private val requestCodeBluetooth = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recView = findViewById<RecyclerView>(R.id.recyclerList)
-
-        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+//        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
         if (bluetoothAdapter == null) {
-            Toast.makeText(this, "Cet appareil n'est pas équipé du BlueTooth", Toast.LENGTH_SHORT)
-                .show()
+
+            Toast.makeText(
+                this,
+                "Cet appareil n'est pas équipé du BlueTooth",
+                Toast.LENGTH_SHORT
+            ).show()
+
         } else {
 
             // Demande activation du Bluetooth
             if (!bluetoothAdapter.isEnabled) {
                 val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(intent, 1)
+                startActivityForResult(intent, requestCodeBluetooth)
             }
 
+            recView = findViewById(R.id.recyclerList)
+
             // Affiche les appareils appairée
-            recView.apply {
+            recView?.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)
                 adapter = RecyclerViewAdapter(context, bluetoothAdapter)
             }
 
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == requestCodeBluetooth) {
+            recView?.apply {
+                adapter = bluetoothAdapter?.let { RecyclerViewAdapter(context, it) }
+            }
         }
     }
 }
