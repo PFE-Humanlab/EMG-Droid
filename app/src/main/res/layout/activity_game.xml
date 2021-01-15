@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".game.activity.GameActivity">
+    tools:context=".game.GameActivity">
 
-    <com.example.bluetooth.game.view.GameView
+    <com.example.bluetooth.game.GameView
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -14,6 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.example.bluetooth.game.view.GameView>
+    </com.example.bluetooth.game.GameView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

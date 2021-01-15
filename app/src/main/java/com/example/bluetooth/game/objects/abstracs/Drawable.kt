@@ -3,7 +3,7 @@ package com.example.bluetooth.game.objects.abstracs
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import com.example.bluetooth.game.view.GameView
+import com.example.bluetooth.game.GameView
 
 abstract class Drawable(var image: Bitmap) {
 

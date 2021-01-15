@@ -2,7 +2,7 @@ package com.example.bluetooth.game.objects.abstracs
 
 import android.graphics.Bitmap
 import android.graphics.Rect
-import com.example.bluetooth.game.view.GameView
+import com.example.bluetooth.game.GameView
 
 @Suppress("SpellCheckingInspection")
 abstract class Intersectable(image: Bitmap) : Drawable(image) {

@@ -3,7 +3,6 @@ package com.example.bluetooth.game
 import android.graphics.Canvas
 import android.util.Log
 import android.view.SurfaceHolder
-import com.example.bluetooth.game.view.GameView
 
 class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView: GameView) :
     Thread() {

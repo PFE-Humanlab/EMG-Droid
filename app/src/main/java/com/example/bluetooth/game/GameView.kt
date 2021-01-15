@@ -1,4 +1,4 @@
-package com.example.bluetooth.game.view
+package com.example.bluetooth.game
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,7 +10,6 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.example.bluetooth.R
-import com.example.bluetooth.game.GameThread
 import com.example.bluetooth.game.objects.abstracs.Drawable
 import com.example.bluetooth.game.objects.abstracs.Intersectable
 import com.example.bluetooth.game.objects.abstracs.PlayerUpdatable

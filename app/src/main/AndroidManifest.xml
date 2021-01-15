@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BlueTooth">
-        <activity android:name=".game.activity.GameActivity" />
+        <activity android:name=".game.GameActivity" />
         <activity android:name=".activity.DeviceActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
