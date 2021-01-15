@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BlueTooth">
+        android:theme="@style/Theme.BlueTooth"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".game.GameActivity" />
         <activity android:name=".activity.DeviceActivity" />
         <activity android:name=".MainActivity">
