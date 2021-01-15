@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import com.example.bluetooth.game.GameView
 
-abstract class Drawable(var image: Bitmap) {
+abstract class Drawable(private var image: Bitmap) {
 
     val w: Int = image.width
     val h: Int = image.height

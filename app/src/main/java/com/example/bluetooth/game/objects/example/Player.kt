@@ -1,7 +1,6 @@
 package com.example.bluetooth.game.objects.example
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.example.bluetooth.game.objects.abstracs.Intersectable
 import com.example.bluetooth.game.objects.abstracs.PlayerUpdatable
 

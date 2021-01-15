@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this,
-                "Cet appareil n'est pas équipé du BlueTooth",
+                getString(R.string.unsupported_bluetooth),
                 Toast.LENGTH_SHORT
             ).show()
 
         } else {
 
-            // Demande activation du Bluetooth
+            // Ask for Bluetooth
             if (!bluetoothAdapter.isEnabled) {
                 val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 startActivityForResult(intent, requestCodeBluetooth)
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
             recView = findViewById(R.id.recyclerList)
 
-            // Affiche les appareils appairée
+            // Display bonded devices
             recView?.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)

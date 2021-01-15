@@ -24,9 +24,9 @@ import java.util.*
 class DeviceActivity : AppCompatActivity() {
 
     //    val values =  mutableListOf<Int>()
-    var lastXValue = 0.0
+    private var lastXValue = 0.0
 
-    val series = LineGraphSeries<DataPoint>()
+    private val series = LineGraphSeries<DataPoint>()
 
     private fun toMainMenu() {
         val mContext = findViewById<ConstraintLayout>(R.id.deviceLayout).context
@@ -35,7 +35,7 @@ class DeviceActivity : AppCompatActivity() {
         mContext.startActivity(intent)
     }
 
-    fun updateGraphAndText(value: Int) {
+    private fun updateGraphAndText(value: Int) {
 
         val textView = findViewById<TextView>(R.id.deviceLatestValue)
         textView.text = value.toString()
@@ -64,11 +64,7 @@ class DeviceActivity : AppCompatActivity() {
         graph.viewport.setMaxX(100.0)
 
         // Setup data thread
-        val device = intent.getParcelableExtra<BluetoothDevice>("device")
-
-        if (device == null) {
-            return toMainMenu()
-        }
+        val device = intent.getParcelableExtra<BluetoothDevice>("device") ?: return toMainMenu()
 
         lifecycleScope.launch(Dispatchers.IO) {
 

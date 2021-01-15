@@ -6,10 +6,10 @@ import com.example.bluetooth.game.objects.abstracs.Updatable
 
 class MovingObstacle(image: Bitmap) : Intersectable(image), Updatable {
 
-    var velocity = 500
+    private var velocity = 500
 
-    var xDir = 1
-    var yDir = 1
+    private var xDir = 1
+    private var yDir = 1
 
     init {
         x = screenWidth / 2f
