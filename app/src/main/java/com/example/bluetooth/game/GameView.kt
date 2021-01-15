@@ -122,7 +122,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         // when ever there is a touch on the screen,
         // we can get the position of touch
         // which we may use it for tracking some of the game objects
-        // Todo : change to bluetooth data thread
+        // Todo : change to bluetooth data thread (and update PlayerUpdatable interface)
 
         touchedX = event.x.toInt()
         touchedY = event.y.toInt()

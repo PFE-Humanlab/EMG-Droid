@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
+import com.example.bluetooth.MainActivity
 import com.example.bluetooth.R
 import com.example.bluetooth.game.GameActivity
 import com.jjoe64.graphview.GraphView
@@ -26,15 +28,18 @@ class DeviceActivity : AppCompatActivity() {
 
     val series = LineGraphSeries<DataPoint>()
 
+    private fun toMainMenu() {
+        val mContext = findViewById<ConstraintLayout>(R.id.deviceLayout).context
+
+        val intent = Intent(mContext, MainActivity::class.java)
+        mContext.startActivity(intent)
+    }
+
     fun updateGraphAndText(value: Int) {
 
         val textView = findViewById<TextView>(R.id.deviceLatestValue)
         textView.text = value.toString()
-
-//        values.add(value)
-
         lastXValue += 1
-
         series.appendData(DataPoint(lastXValue, value.toDouble()), true, 100)
     }
 
@@ -42,6 +47,15 @@ class DeviceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device)
 
+        // Setup start game button
+        val button = findViewById<Button>(R.id.startGameButton)
+        button.setOnClickListener {
+            val mContext = button.context
+            val intent = Intent(mContext, GameActivity::class.java)
+            mContext.startActivity(intent)
+        }
+
+        // Setup graph
         val graph = findViewById<GraphView>(R.id.graph)
         graph.addSeries(series)
 
@@ -49,18 +63,11 @@ class DeviceActivity : AppCompatActivity() {
         graph.viewport.setMinX(0.0)
         graph.viewport.setMaxX(100.0)
 
-        val button = findViewById<Button>(R.id.startGameButton)
-        button.setOnClickListener {
-            val mContext = button.context
-            val intent = Intent(mContext , GameActivity::class.java)
-            mContext.startActivity(intent)
-        }
-
+        // Setup data thread
         val device = intent.getParcelableExtra<BluetoothDevice>("device")
 
         if (device == null) {
-            // Todo : go back main menu
-            return
+            return toMainMenu()
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -74,8 +81,7 @@ class DeviceActivity : AppCompatActivity() {
             }
 
             if (bluetoothSocket == null) {
-                // Todo : go back main menu avec message erreur
-                return@launch
+                return@launch toMainMenu()
             }
 
             try {
@@ -85,8 +91,7 @@ class DeviceActivity : AppCompatActivity() {
                     bluetoothSocket.close()
                 } catch (closeException: IOException) {
                 }
-                // Todo : go back main menu avec message erreur
-                return@launch
+                return@launch toMainMenu()
             }
 
             val inputStream = bluetoothSocket.inputStream
