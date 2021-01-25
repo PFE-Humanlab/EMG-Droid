@@ -3,4 +3,18 @@
     <string name="bluetooth_icon">bluetooth icon</string>
     <string name="start_game">Start Game</string>
     <string name="unsupported_bluetooth">This device does not support Bluetooth</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="stop_recording">Stop Recording</string>
+    <string name="file_name">File Name</string>
+    <string name="overwrite_warning">This file already exists. Do you want to overwrite it ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="load_data">Load Data</string>
+    <string name="speed">Speed</string>
+    <string name="calibration">Calibration</string>
+    <string name="calibration_summary">Contract and decontract to fix the min and max value</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="distance">Distance</string>
+    <string name="_three_digit_default_number">100</string>
 </resources>

@@ -1,107 +1,160 @@
 package com.example.bluetooth.activity
 
+import android.app.AlertDialog
 import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothSocket
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.lifecycleScope
-import com.example.bluetooth.MainActivity
+import android.util.Log
 import com.example.bluetooth.R
-import com.example.bluetooth.game.GameActivity
-import com.jjoe64.graphview.GraphView
+import com.example.bluetooth.utils.BluetoothActivity
+import com.example.bluetooth.utils.BluetoothCommunication
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.IOException
-import java.util.*
+import kotlinx.android.synthetic.main.activity_device.*
+import java.io.FileWriter
 
-class DeviceActivity : AppCompatActivity() {
+class DeviceActivity : BluetoothActivity() {
 
-    //    val values =  mutableListOf<Int>()
-    private var lastXValue = 0.0
+    private lateinit var device: BluetoothDevice
+    private var lastXValue = 0
+    private var maxY = 100
+    private var maxDataPoints = 100
+
+    private var isRecording = false
 
     private val series = LineGraphSeries<DataPoint>()
 
-    private fun toMainMenu() {
-        val mContext = findViewById<ConstraintLayout>(R.id.deviceLayout).context
-
-        val intent = Intent(mContext, MainActivity::class.java)
-        mContext.startActivity(intent)
-    }
-
-    private fun updateGraphAndText(value: Int) {
-
-        val textView = findViewById<TextView>(R.id.deviceLatestValue)
-        textView.text = value.toString()
-        lastXValue += 1
-        series.appendData(DataPoint(lastXValue, value.toDouble()), true, 100)
-    }
+    private val values = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device)
 
+        device = intent.getParcelableExtra("device") ?: return finish()
+
+        BluetoothCommunication.device = device
+
         // Setup start game button
-        val button = findViewById<Button>(R.id.startGameButton)
-        button.setOnClickListener {
-            val mContext = button.context
-            val intent = Intent(mContext, GameActivity::class.java)
+        startCalibrButton.setOnClickListener {
+            val mContext = startCalibrButton.context
+            val intent = Intent(mContext, CalibrationActivity::class.java)
             mContext.startActivity(intent)
         }
 
+        fileName.setText(System.currentTimeMillis().toString())
+        startButton.text = getString(R.string.start_recording)
+
+        startButton.setOnClickListener {
+            if (isRecording) {
+
+                stopRecording()
+
+            } else {
+
+                // si champ vide prend timestamp
+                if (fileName.text == null || fileName.text.toString() == "") {
+                    fileName.setText(System.currentTimeMillis().toString())
+                }
+
+                val fileNameString = fileName.text.toString()
+
+                // si existe, demande si ecrase :
+
+                val fileList = fileList()
+                if (fileList.contains(fileNameString)) {
+
+                    val alertDialog = AlertDialog.Builder(it.context)
+                        .setMessage(getString(R.string.overwrite_warning))
+                        .setPositiveButton(getString(R.string.yes)) { _: DialogInterface, _: Int ->
+                            startRecording()
+                        }
+                        .setNegativeButton(getString(R.string.no)) { _: DialogInterface, _: Int ->
+                        }
+                    alertDialog.show()
+
+                } else {
+                    startRecording()
+                }
+            }
+        }
+
         // Setup graph
-        val graph = findViewById<GraphView>(R.id.graph)
         graph.addSeries(series)
 
         graph.viewport.isXAxisBoundsManual = true
         graph.viewport.setMinX(0.0)
         graph.viewport.setMaxX(100.0)
 
-        // Setup data thread
-        val device = intent.getParcelableExtra<BluetoothDevice>("device") ?: return toMainMenu()
+        graph.viewport.isYAxisBoundsManual = true
+        graph.viewport.setMinY(0.0)
+        graph.viewport.setMaxY(maxY.toDouble())
 
-        lifecycleScope.launch(Dispatchers.IO) {
+    }
 
-            val uuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
-            var bluetoothSocket: BluetoothSocket? = null
+    private fun startRecording() {
+        isRecording = true
+        startButton.text = getString(R.string.stop_recording)
+        fileName.isEnabled = false
+    }
 
-            try {
-                bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
-            } catch (e: Exception) {
-            }
+    private fun stopRecording() {
+        isRecording = false
 
-            if (bluetoothSocket == null) {
-                return@launch toMainMenu()
-            }
+        startButton.text = getString(R.string.start_recording)
+        fileName.isEnabled = true
 
-            try {
-                bluetoothSocket.connect()
-            } catch (connectException: IOException) {
-                try {
-                    bluetoothSocket.close()
-                } catch (closeException: IOException) {
-                }
-                return@launch toMainMenu()
-            }
+        // save to text file
+        val fileNameString = fileName.text.toString()
 
-            val inputStream = bluetoothSocket.inputStream
-//            val buffer: ByteArray = ByteArray(1024)
-
-            while (true) {
-                val input = inputStream.read() * 3
-
-                withContext(Dispatchers.Main) {
-                    // update UI here
-                    updateGraphAndText(input)
-                }
+        openFileOutput(fileNameString, Context.MODE_PRIVATE).use { stream ->
+            FileWriter(stream.fd).use {
+                val data = values.joinToString(",")
+                it.write(data)
             }
         }
 
+        values.removeAll { true }
+
+    }
+
+
+    private fun updateGraphAndText(value: Int) {
+        deviceLatestValue.text = value.toString()
+        lastXValue += 1
+
+        // Update Stored List
+        if (isRecording) {
+            values.add(value)
+        }
+
+        // update display
+        series.appendData(DataPoint(lastXValue.toDouble(), value.toDouble()), true, maxDataPoints)
+
+        // TODO : update max Y by last $maxDataPoints values
+        if (value > maxY) {
+            maxY = value
+            graph.viewport.setMaxY(maxY.toDouble())
+        }
+
+    }
+
+    override fun callSuccess(value: Int) {
+        updateGraphAndText(value)
+    }
+
+    override fun callFailure() {
+        finish()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        BluetoothCommunication.stopReadingData()
+    }
+
+    override fun finish() {
+        super.finish()
+        BluetoothCommunication.stopReadingData()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bluetooth.recyclerView
+package com.example.bluetooth.bluetooth_recycler_view
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -21,7 +21,7 @@ class RecyclerViewAdapter(private val mContext : Context, private val bluetoothA
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val device = deviceList[position]
 
-        (holder as RecyclerViewHolder).bind(device, bluetoothAdapter, mContext)
+        (holder as RecyclerViewHolder).bind(device, mContext)
 
     }
 

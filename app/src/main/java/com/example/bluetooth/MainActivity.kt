@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bluetooth.recyclerView.RecyclerViewAdapter
+import com.example.bluetooth.activity.ListFilesActivity
+import com.example.bluetooth.bluetooth_recycler_view.RecyclerViewAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-//        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        setContentView(R.layout.activity_main)
 
         if (bluetoothAdapter == null) {
 
@@ -39,16 +40,20 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(intent, requestCodeBluetooth)
             }
 
-            recView = findViewById(R.id.recyclerList)
-
             // Display bonded devices
-            recView?.apply {
+            recyclerList.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)
                 adapter = RecyclerViewAdapter(context, bluetoothAdapter)
             }
 
         }
+
+        loadButton.setOnClickListener {
+            val intent = Intent(loadButton.context, ListFilesActivity::class.java)
+            loadButton.context.startActivity(intent)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

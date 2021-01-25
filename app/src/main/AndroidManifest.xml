@@ -7,14 +7,53 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BlueTooth"
-        android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".game.GameActivity" />
-        <activity android:name=".activity.DeviceActivity" />
+        android:theme="@style/Theme.BlueTooth">
+
+        <activity
+            android:name=".activity.CalibrationActivity"
+            android:parentActivityName=".activity.DeviceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.DeviceActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.ViewDataActivity"
+            android:parentActivityName=".activity.ListFilesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ListFilesActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.ListFilesActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".game.GameActivity"
+            android:parentActivityName=".activity.CalibrationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CalibrationActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.DeviceActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +61,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
