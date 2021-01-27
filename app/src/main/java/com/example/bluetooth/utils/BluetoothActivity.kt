@@ -12,7 +12,7 @@ abstract class BluetoothActivity : AppCompatActivity() {
     override fun onPause() {
         BluetoothCommunication.stopReadingData()
         BluetoothCommunication.Actor.stop()
-        sleep(250)
+        sleep(300)
         super.onPause()
     }
 

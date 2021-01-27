@@ -6,10 +6,11 @@ import android.view.SurfaceHolder
 
 class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView: GameView) :
     Thread() {
+
     private var running: Boolean = false
 
-    private val targetFPS =
-        50 // frames per second, the rate at which you would like to refresh the Canvas
+    // frames per second, the rate at which you would like to refresh the Canvas
+    private val targetFPS = 50
 
     fun setRunning(isRunning: Boolean) {
         this.running = isRunning
@@ -17,6 +18,7 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
     override fun run() {
         var startTime: Long
+        var startTimeOld : Long = System.nanoTime()
         var timeMillis: Long
         var waitTime: Long
 
@@ -27,8 +29,7 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
         while (running) {
 
-            startTime = System.nanoTime()
-            canvas = null
+            var canvas : Canvas? = null
 
             try {
                 // locking the canvas allows us to draw on to it
@@ -52,8 +53,12 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
                 }
             }
 
-            timeMillis = (System.nanoTime() - startTime) / 1000000
+            startTime = System.nanoTime()
+
+            timeMillis = ( startTime - startTimeOld) / 1000000
             waitTime = targetTime - timeMillis
+
+            startTimeOld = startTime
             if (waitTime > 0) {
                 try {
                     sleep(waitTime)
@@ -63,11 +68,6 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
             }
         }
 
-        Log.i("GameThread", "run: Over")
-    }
-
-    companion object {
-        private var canvas: Canvas? = null
     }
 
 }

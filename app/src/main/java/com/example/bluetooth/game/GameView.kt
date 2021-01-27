@@ -2,6 +2,7 @@ package com.example.bluetooth.game
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.AttributeSet
@@ -10,56 +11,114 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.example.bluetooth.R
-import com.example.bluetooth.game.objects.abstracs.Drawable
-import com.example.bluetooth.game.objects.abstracs.Intersectable
-import com.example.bluetooth.game.objects.abstracs.PlayerUpdatable
-import com.example.bluetooth.game.objects.abstracs.Updatable
-import com.example.bluetooth.game.objects.example.MovingObstacle
-import com.example.bluetooth.game.objects.example.Player
+import com.example.bluetooth.game.objects.actual.GroupObstacles
+import com.example.bluetooth.game.objects.actual.Obstacle
+import com.example.bluetooth.game.objects.actual.Player
+import com.example.bluetooth.game.objects.interf.Drawable
+import com.example.bluetooth.game.objects.interf.Intersectable
+import com.example.bluetooth.game.objects.interf.PlayerUpdatable
+import com.example.bluetooth.game.objects.interf.Updatable
+import kotlin.math.max
 
 class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
     SurfaceHolder.Callback {
+
     private var thread: GameThread? = null
 
-    private var player: Player? = null
-    private var movingObstacle: MovingObstacle? = null
-
     private var needUpdate: Boolean = false
-    private var touchedX: Int = 0
-    private var touchedY: Int = 0
+    private var newInput: Int = 0
 
+    var minValue: Int? = null
+    var maxValue: Int? = null
+    var speed: Int? = null
+    var distance: Int? = null
+
+    var currentSpeed: Int = 0
+    var currentPos: Int = 0
+
+    private val collisionPenalty: Int = 500
+    private var collisionEffectTimer: Int = 0
+    private var collisionsCount: Int = 0
+    private val collisionEffectDuration = 100
+
+
+    companion object {
+        val listUpdatable: MutableList<Updatable> = mutableListOf()
+        val listDrawable: MutableList<Pair<Drawable, Int>> = mutableListOf()
+        val listPlayersIntersectables: MutableList<Intersectable> = mutableListOf()
+        val listObstaclesIntersectables: MutableList<Intersectable> = mutableListOf()
+        val listPlayerUpdatable: MutableList<PlayerUpdatable> = mutableListOf()
+    }
 
     init {
         // add callback
         holder.addCallback(this)
     }
 
-    private fun initGame() {
+    fun handleCollision() {
+        collisionsCount++
+
+        Log.i("Collision", "handleCollision: nb Collisions : $collisionsCount")
+        Log.i("Collision", "handleCollision: pos : $currentPos")
+        Log.i("Collision", "handleCollision: dist : $distance")
+        Log.i("Collision", "handleCollision: speed : $currentSpeed")
+
+        currentSpeed = max(currentSpeed - collisionPenalty, 0)
+
+        Log.i("Collision", "handleCollision: speed : $currentSpeed")
+
+        collisionEffectTimer = collisionEffectDuration
+    }
+
+    fun initGame() {
         // init lists
         listDrawable.removeAll { true }
-        listIntersectable.removeAll { true }
+        listPlayersIntersectables.removeAll { true }
+        listObstaclesIntersectables.removeAll { true }
         listUpdatable.removeAll { true }
         listPlayerUpdatable.removeAll { true }
 
-        // Setup the game objects
-        movingObstacle = MovingObstacle(BitmapFactory.decodeResource(resources, R.drawable.grenade))
-        player = Player(BitmapFactory.decodeResource(resources, R.drawable.player))
 
-        // register the game objects : todo : automatic (done for drawable and intersectable)
-        listUpdatable.apply {
-            add(movingObstacle!!)
+        currentSpeed = 0
+        currentPos = 0
+        collisionsCount = 0
+        collisionEffectTimer = 0
+
+//         Setup the game objects
+        val groupObstacles = GroupObstacles(
+            listOf(
+                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
+                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
+                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
+                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
+                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
+                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
+                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade))
+            )
+        )
+
+        val player = Player(this, BitmapFactory.decodeResource(resources, R.drawable.player))
+
+        // register the game objects
+        listDrawable.apply {
+            add(Pair(groupObstacles, 0))
+            add(Pair(player, 1))
         }
-        listPlayerUpdatable.apply {
-            add(player!!)
-        }
+
+        listObstaclesIntersectables.add(groupObstacles)
+        listPlayersIntersectables.add(player)
+
+        listUpdatable.add(groupObstacles)
+        listUpdatable.add(player)
+
+        listPlayerUpdatable.add(player)
+
     }
 
-//    val TAG = "GameView"
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        initGame()
 
-//        Log.i(TAG, "surfaceCreated: ")
+        setWillNotDraw(false)
 
         // instantiate the game thread
         thread = GameThread(holder, this)
@@ -70,92 +129,117 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-//        Log.i(TAG, "surfaceChanged: ")
-
+        Log.i("GameLoop", "surfaceChanged: ")
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-//        Log.i(TAG, "surfaceDestroyed: ")
 
         var retry = true
         while (retry) {
-//            Log.i(TAG, "surfaceDestroyed: While retry")
+
             try {
                 thread?.setRunning(false)
-//                Log.i(TAG, "surfaceDestroyed: setRunning = false")
                 thread?.join()
+
                 Log.i("GameView", "surfaceDestroyed: setRunning = joined")
                 retry = false
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+
     }
 
     /**
      * Function to update the positions of player and game objects
      */
     fun update(deltaTimeMillis: Long) {
+        // update Speed
+
+        speed?.let { wantedSpeed ->
+
+            val acceleration = (wantedSpeed - currentSpeed)
+
+            currentSpeed += acceleration * deltaTimeMillis.toInt() / 1000
+
+            currentPos += currentSpeed * deltaTimeMillis.toInt() / 1000
+
+        }
+
         // update game objects
+        if (needUpdate) {
+            needUpdate = false
+
+            listPlayerUpdatable.forEach {
+                it.playerUpdate(newInput)
+            }
+
+        }
+
         listUpdatable.forEach {
             it.tickUpdate(deltaTimeMillis)
         }
 
-        if (needUpdate) {
-            listPlayerUpdatable.forEach {
-                it.playerUpdate(touchedX, touchedY)
+        //Check for intersections for updated objects
+        listPlayersIntersectables.forEach { itOuter ->
+            listObstaclesIntersectables.forEach {
+
+                itOuter.doIntersect(it)
+                it.doIntersect(itOuter)
             }
         }
 
-        listIntersectable.forEachIndexed { indexOuter, itOuter ->
-            listIntersectable.filterIndexed { index, it ->
-                indexOuter > index && itOuter.doIntersect(it)
-            }.forEach {
-                itOuter.intersect(it)
-                it.intersect(itOuter)
+        // Check if game is over
+        distance?.let {
+
+            if (currentPos > it) {
+                endGame()
             }
         }
     }
 
+    private fun endGame() {
+        Log.i("GameLoop", "endGame: Not Implemented")
+        TODO("Not yet implemented")
+    }
+
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        // when ever there is a touch on the screen,
-        // we can get the position of touch
-        // which we may use it for tracking some of the game objects
-        // Todo : change to bluetooth data thread (and update PlayerUpdatable interface)
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
 
-        touchedX = event.x.toInt()
-        touchedY = event.y.toInt()
+        if (event != null) {
+            val yTouched = event.y.toInt()
+            minValue = 0
+            maxValue = 700
 
-        val action = event.action
-        needUpdate = when (action) {
-            MotionEvent.ACTION_DOWN -> true
-            MotionEvent.ACTION_MOVE -> true
-
-            else -> false
+            val newValue = yTouched / Resources.getSystem().displayMetrics.heightPixels.toFloat()
+            newInput = (newValue * maxValue!!).toInt()
+            needUpdate = true
         }
 
-        return true
+        return super.onTouchEvent(event)
+    }
+
+    fun updatePlayer(value: Int) {
+//        newInput = value
+//        needUpdate = true
     }
 
     /**
      * Everything that has to be drawn on Canvas
      */
     override fun draw(canvas: Canvas) {
+        // Draw game objects
+
         super.draw(canvas)
 
-        // Draw game objects
+        listDrawable.sortBy { it.second }
+
         listDrawable.forEach {
-            it.draw(canvas)
+            it.first.draw(canvas)
         }
 
+
     }
 
-    companion object {
-        val listUpdatable: MutableList<Updatable> = mutableListOf()
-        val listDrawable: MutableList<Drawable> = mutableListOf()
-        val listIntersectable: MutableList<Intersectable> = mutableListOf()
-        val listPlayerUpdatable: MutableList<PlayerUpdatable> = mutableListOf()
-    }
 
 }

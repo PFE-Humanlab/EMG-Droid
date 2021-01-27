@@ -39,12 +39,12 @@ object BluetoothCommunication {
                             callbackSuccess?.let { it(element) }
                         }
                     }
-                    sleep(250)
+                    sleep(100)
                 }
             }
         }
 
-        fun stop(){
+        fun stop() {
             job.cancel()
         }
 
@@ -62,9 +62,7 @@ object BluetoothCommunication {
         callbackSuccess = call
     }
 
-    fun startReadingData(
-        scope: LifecycleCoroutineScope
-    ) {
+    fun startReadingData(scope: LifecycleCoroutineScope) {
 
         scope.launch(Dispatchers.IO) {
 

@@ -1,4 +1,4 @@
-package com.example.bluetooth.game.objects.abstracs
+package com.example.bluetooth.game.objects.interf
 
 interface Updatable {
 
