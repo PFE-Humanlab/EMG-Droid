@@ -3,12 +3,13 @@ package com.example.bluetooth.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bluetooth.R
+import com.example.bluetooth.utils.leftPad
 import kotlinx.android.synthetic.main.activity_end_game.*
 
 class EndGameActivity : AppCompatActivity() {
 
-    var finalTimeMillis : Long = 0
-    var collCount : Int = -1
+    var finalTimeMillis: Long = 0
+    var collCount: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,11 @@ class EndGameActivity : AppCompatActivity() {
         val min = (finalTimeMillis / 1000) / 60
         val sec = (finalTimeMillis / 1000) % 60
 
-        finalTimeText.text = getString(R.string.time_holder, min.toString(), sec.toString())
+        finalTimeText.text = getString(
+            R.string.time_holder,
+            min.toString().leftPad(2, "0"),
+            sec.toString().leftPad(2, "0")
+        )
 
         collFinalText.text = collCount.toString()
 

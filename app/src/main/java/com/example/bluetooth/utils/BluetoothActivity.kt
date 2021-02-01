@@ -1,8 +1,6 @@
 package com.example.bluetooth.utils
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import java.lang.Thread.sleep
 
 abstract class BluetoothActivity : AppCompatActivity() {
 
@@ -11,8 +9,7 @@ abstract class BluetoothActivity : AppCompatActivity() {
 
     override fun onPause() {
         BluetoothCommunication.stopReadingData()
-        BluetoothCommunication.Actor.stop()
-        sleep(300)
+        BluetoothCommunication.stopActor()
         super.onPause()
     }
 
@@ -20,12 +17,12 @@ abstract class BluetoothActivity : AppCompatActivity() {
 
         // Setup data thread
         BluetoothCommunication.apply {
-            setCallbackSuccess { value -> callSuccess(value) }
-            setCallbackFailure { callFailure() }
-            startReadingData(lifecycleScope)
+            startActor { value -> callSuccess(value) }
+            startReadingData { callFailure() }
         }
-        BluetoothCommunication.Actor.start(lifecycleScope)
+
         super.onResume()
     }
+
 
 }

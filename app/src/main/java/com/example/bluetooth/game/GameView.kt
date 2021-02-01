@@ -23,6 +23,7 @@ import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.Intersectable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
 import com.example.bluetooth.game.objects.interf.Updatable
+import com.example.bluetooth.utils.leftPad
 import kotlin.math.max
 
 class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
@@ -33,7 +34,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     private var needUpdate: Boolean = false
     private var newInput: Int = 0
 
-    var paused : Boolean = false
+    var paused: Boolean = false
 
     var minValue: Int? = null
     var maxValue: Int? = null
@@ -168,7 +169,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         Log.i("GameLoop", "surfaceChanged: ")
     }
 
-    fun stopAndJoinThread(){
+    fun stopAndJoinThread() {
         pauseGame()
 
         var retry = true
@@ -197,7 +198,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
      */
     fun update(deltaTimeMillis: Long) {
         // update Speed
-        if(paused){
+        if (paused) {
             Log.i("EndGame", "endGame: update after end ")
             return
         }
@@ -246,7 +247,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
 
     }
 
-    private fun pauseGame(){
+    private fun pauseGame() {
         paused = true
 
     }
@@ -303,7 +304,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
 
         super.draw(canvas)
 
-        if(paused){
+        if (paused) {
             Log.i("EndGame", "endGame: draw after end ")
             return
         }
@@ -320,16 +321,23 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         val minutes = (delta / 1000) / 60
         val seconds = (delta / 1000) % 60
 
-        val timeText = activity?.findViewById<TextView>(R.id.timeText)
+        activity?.runOnUiThread {
 
-        timeText?.let {
-            it.text = activity?.getString(R.string.time_holder, minutes.toString(), seconds.toString()) ?: ""
-        }
+            val timeText = activity?.findViewById<TextView>(R.id.timeText)
 
-        val collText = activity?.findViewById<TextView>(R.id.collText)
+            timeText?.let {
+                it.text = activity?.getString(
+                    R.string.time_holder,
+                    minutes.toString().leftPad(2, "0"),
+                    seconds.toString().leftPad(2, "0")
+                ) ?: ""
+            }
 
-        collText?.let {
-            it.text = collisionsCount.toString()
+            val collText = activity?.findViewById<TextView>(R.id.collText)
+
+            collText?.let {
+                it.text = collisionsCount.toString()
+            }
         }
 
     }

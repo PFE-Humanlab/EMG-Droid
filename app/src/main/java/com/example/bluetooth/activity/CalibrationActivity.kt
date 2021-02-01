@@ -123,7 +123,9 @@ class CalibrationActivity : BluetoothActivity() {
     }
 
     override fun callSuccess(value: Int) {
-        updateValues(value)
+        runOnUiThread {
+            updateValues(value)
+        }
     }
 
     override fun callFailure() {

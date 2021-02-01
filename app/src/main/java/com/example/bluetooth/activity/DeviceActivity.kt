@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.example.bluetooth.R
 import com.example.bluetooth.utils.BluetoothActivity
 import com.example.bluetooth.utils.BluetoothCommunication
@@ -34,7 +33,7 @@ class DeviceActivity : BluetoothActivity() {
 
         device = intent.getParcelableExtra("device") ?: return finish()
 
-        BluetoothCommunication.device = device
+        BluetoothCommunication.setDevice(device)
 
         // Setup start game button
         startCalibrButton.setOnClickListener {
@@ -130,7 +129,11 @@ class DeviceActivity : BluetoothActivity() {
         }
 
         // update display
-        series.appendData(DataPoint(lastXValue.toDouble(), value.toDouble()), true, maxDataPoints)
+        series.appendData(
+            DataPoint(lastXValue.toDouble(), value.toDouble()),
+            true,
+            maxDataPoints
+        )
 
         // TODO : update max Y by last $maxDataPoints values
         if (value > maxY) {
@@ -138,23 +141,17 @@ class DeviceActivity : BluetoothActivity() {
             graph.viewport.setMaxY(maxY.toDouble())
         }
 
+
     }
 
     override fun callSuccess(value: Int) {
-        updateGraphAndText(value)
+        runOnUiThread {
+            updateGraphAndText(value)
+        }
     }
 
     override fun callFailure() {
         finish()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        BluetoothCommunication.stopReadingData()
-    }
-
-    override fun finish() {
-        super.finish()
-        BluetoothCommunication.stopReadingData()
-    }
 }
