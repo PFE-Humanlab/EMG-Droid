@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/startCalibrButton"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.CalibrationActivity">
@@ -11,23 +10,26 @@
         android:id="@+id/speedBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/speedValueText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/distBar" />
+
+    <TextView
+        android:id="@+id/speedText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        app:layout_constraintEnd_toStartOf="@+id/speedValue"
-        app:layout_constraintStart_toEndOf="@+id/speedText"
-        app:layout_constraintTop_toBottomOf="@+id/distBar" />
-
-    <TextView
-        android:id="@+id/speedText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="64dp"
         android:text="@string/speed"
+        app:layout_constraintEnd_toStartOf="@+id/speedBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/distBar" />
 
@@ -112,28 +114,31 @@
         android:id="@+id/distBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/distValueText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maxText" />
+
+    <TextView
+        android:id="@+id/distText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        app:layout_constraintEnd_toStartOf="@+id/distValue"
-        app:layout_constraintStart_toEndOf="@+id/distText"
-        app:layout_constraintTop_toBottomOf="@+id/maxText" />
-
-    <TextView
-        android:id="@+id/distText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="64dp"
         android:text="@string/distance"
+        app:layout_constraintEnd_toStartOf="@+id/distBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maxText" />
 
     <TextView
-        android:id="@+id/distValue"
+        android:id="@+id/distValueText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -144,7 +149,7 @@
         app:layout_constraintTop_toBottomOf="@+id/maxText" />
 
     <TextView
-        android:id="@+id/speedValue"
+        android:id="@+id/speedValueText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -153,4 +158,43 @@
         android:text="@string/_three_digit_default_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/distBar" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/delay_between_obstacles"
+        app:layout_constraintEnd_toStartOf="@+id/delayBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+
+    <SeekBar
+        android:id="@+id/delayBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/delayValueText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+
+    <TextView
+        android:id="@+id/delayValueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/_three_digit_default_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

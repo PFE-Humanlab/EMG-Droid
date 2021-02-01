@@ -7,6 +7,7 @@ import android.graphics.Matrix
 import android.util.Log
 import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.GameObject
+
 open class BitmapDrawable(private var image: Bitmap) : RectangleIntersectable(), Drawable,
     GameObject {
 

@@ -3,6 +3,7 @@ package com.example.bluetooth.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.SeekBar
+import android.widget.TextView
 import com.example.bluetooth.R
 import com.example.bluetooth.game.GameActivity
 import com.example.bluetooth.utils.BluetoothActivity
@@ -16,8 +17,9 @@ class CalibrationActivity : BluetoothActivity() {
 
     private var distProgress = 100
     private var speedProgress = 100
+    private var delayProgress = 1000
 
-    fun updateValues(value: Int) {
+    private fun updateValues(value: Int) {
         if (value < minValue) {
             minValue = value
             minText.text = minValue.toString()
@@ -32,16 +34,24 @@ class CalibrationActivity : BluetoothActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calibration)
 
+        val parent = this
+
         distBar.apply {
             progress = distProgress
+            max = 90
+
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    distProgress = progress
-                    distValue.text = distProgress.toString()
+                    distProgress = progress + 10
+
+                    val distV = parent.findViewById<TextView>(R.id.distValueText)
+                    distV?.let {
+                        it.text = distProgress.toString()
+                    }
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -51,14 +61,44 @@ class CalibrationActivity : BluetoothActivity() {
 
         speedBar.apply {
             progress = speedProgress
+            max = 80
+
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    speedProgress = progress
-                    speedValue.text = speedProgress.toString()
+                    speedProgress = progress + 20
+
+                    val speedV = parent.findViewById<TextView>(R.id.speedValueText)
+                    speedV?.let {
+                        it.text = speedProgress.toString()
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+        }
+
+        delayBar.apply {
+            progress = delayProgress
+            max = 4500
+
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    delayProgress = progress + 500
+
+
+                    val delayV = parent.findViewById<TextView>(R.id.delayValueText)
+                    delayV?.let {
+                        it.text = delayProgress.toString()
+                    }
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -68,7 +108,7 @@ class CalibrationActivity : BluetoothActivity() {
 
         startGameButton.setOnClickListener {
 
-            val mContext = startCalibrButton.context
+            val mContext = it.context
 
             val intent = Intent(mContext, GameActivity::class.java)
 
@@ -76,6 +116,7 @@ class CalibrationActivity : BluetoothActivity() {
             intent.putExtra("distance", distProgress)
             intent.putExtra("min", minValue)
             intent.putExtra("max", maxValue)
+            intent.putExtra("delay", delayProgress)
 
             mContext.startActivity(intent)
         }

@@ -1,7 +1,6 @@
 package com.example.bluetooth.game
 
 import android.graphics.Canvas
-import android.util.Log
 import android.view.SurfaceHolder
 
 class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView: GameView) :
@@ -13,12 +12,14 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
     private val targetFPS = 50
 
     fun setRunning(isRunning: Boolean) {
-        this.running = isRunning
+        synchronized(running){
+            this.running = isRunning
+        }
     }
 
     override fun run() {
         var startTime: Long
-        var startTimeOld : Long = System.nanoTime()
+        var startTimeOld: Long = System.nanoTime()
         var timeMillis: Long
         var waitTime: Long
 
@@ -29,11 +30,12 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
         while (running) {
 
-            var canvas : Canvas? = null
+            var canvas: Canvas? = null
 
             try {
                 // locking the canvas allows us to draw on to it
                 canvas = this.surfaceHolder.lockCanvas()
+
                 synchronized(surfaceHolder) {
                     timeUpdate = System.nanoTime()
                     this.gameView.update((timeUpdate - timeLastUpdate) / 1000000)
@@ -41,6 +43,7 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
                     this.gameView.draw(canvas!!)
                 }
+
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
@@ -55,7 +58,7 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
             startTime = System.nanoTime()
 
-            timeMillis = ( startTime - startTimeOld) / 1000000
+            timeMillis = (startTime - startTimeOld) / 1000000
             waitTime = targetTime - timeMillis
 
             startTimeOld = startTime

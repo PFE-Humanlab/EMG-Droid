@@ -1,15 +1,15 @@
 package com.example.bluetooth.game.objects.actual
 
-import android.graphics.Canvas
+import com.example.bluetooth.game.GameView
 import com.example.bluetooth.game.objects.abstracs.PoolGameObjects
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 
-class GroupObstacles(val list: List<Obstacle>) : PoolGameObjects(list), Updatable {
+class GroupObstacles(gameView: GameView, private val list: List<Obstacle>) : PoolGameObjects(list),
+    Updatable {
 
-    // Todo : in game View and calibration
     // easy : 5000, hard : 500
-    private val delayBetweenObstacles: Int = 500
+    private val delayBetweenObstacles: Int = gameView.delay!!
 
     private var delay: Int = 0
 

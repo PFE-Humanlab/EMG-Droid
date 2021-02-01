@@ -45,11 +45,14 @@ class GameActivity : BluetoothActivity() {
 
         gView = gameView
 
+        gView.activity = this
+
         gView.apply {
             speed = intent.getIntExtra("speed", 10) * 10
             distance = intent.getIntExtra("distance", 10) * 1000
             minValue = intent.getIntExtra("min", 0)
             maxValue = intent.getIntExtra("max", 700)
+            delay = intent.getIntExtra("delay", 500)
 
             initGame()
         }
@@ -69,6 +72,11 @@ class GameActivity : BluetoothActivity() {
 
     override fun callFailure() {
         finish()
+    }
+
+    override fun onBackPressed() {
+        gView.stopAndJoinThread()
+        super.onBackPressed()
     }
 
 }

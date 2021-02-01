@@ -15,6 +15,18 @@
     <string name="calibration_summary">Contract and decontract to fix the min and max value</string>
     <string name="min">Min</string>
     <string name="max">Max</string>
-    <string name="distance">Distance</string>
+    <string name="distance">Distance to End</string>
     <string name="_three_digit_default_number">100</string>
+    <string name="time">Time</string>
+    <string name="collisions">Collisions</string>
+    <string name="delay_between_obstacles">Delay between obstacles</string>
+    <string name="title_activity_end_game">EndGameActivity</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="time_holder">%1$s : %2$s</string>
+    <string name="final_time">Final Time</string>
+    <string name="try_again">Try Again</string>
+    <string name="back">Back</string>
+    <string name="congratulation">Congratulation !</string>
+
 </resources>
