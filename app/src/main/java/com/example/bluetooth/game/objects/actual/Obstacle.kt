@@ -9,7 +9,7 @@ import com.example.bluetooth.game.objects.interf.Intersectable
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 
-class Obstacle(private val gameView: GameView, image: Bitmap) : BitmapDrawable(image), Updatable {
+class Obstacle(private val gameView: GameView, image: Bitmap) : BitmapDrawable(image ), Updatable {
 
     var alreadyCollided: Boolean = false
 

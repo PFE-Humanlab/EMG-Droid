@@ -1,12 +1,15 @@
 package com.example.bluetooth.game.objects.actual
 
+import android.graphics.Bitmap
 import com.example.bluetooth.game.GameView
 import com.example.bluetooth.game.objects.abstracs.PoolGameObjects
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 
-class GroupObstacles(gameView: GameView, private val list: List<Obstacle>) : PoolGameObjects(list),
-    Updatable {
+class GroupObstacles(private val gameView: GameView, private val image: Bitmap) :
+    PoolGameObjects<Obstacle>(), Updatable {
+
+    override val list: MutableList<Obstacle> = mutableListOf()
 
     // easy : 5000, hard : 500
     private val delayBetweenObstacles: Int = gameView.delay!!
@@ -21,17 +24,17 @@ class GroupObstacles(gameView: GameView, private val list: List<Obstacle>) : Poo
         delay -= deltaTimeMillis.toInt()
 
         if (delay < 0) {
-            val availableObstacle = list.find { !it.active }
+            var availableObstacle = list.find { !it.active }
 
-            availableObstacle?.let {
-
-                it.reset()
-
-                val randomBetween09And11 = (0.9 * Random.nextFloat() + 0.2)
-
-                delay = (delayBetweenObstacles * randomBetween09And11).toInt()
-
+            if (availableObstacle == null) {
+                availableObstacle = Obstacle(gameView, image)
+                list.add(availableObstacle)
             }
+
+            availableObstacle.reset()
+            val randomBetween09And11 = (0.9 * Random.nextFloat() + 0.2)
+            delay = (delayBetweenObstacles * randomBetween09And11).toInt()
+
         }
 
         list.forEach {

@@ -3,18 +3,32 @@ package com.example.bluetooth.game.objects.abstracs
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Matrix
-import android.util.Log
 import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.GameObject
+import com.example.bluetooth.utils.rotatedBitmap
 
-open class BitmapDrawable(private var image: Bitmap) : RectangleIntersectable(), Drawable,
-    GameObject {
+open class BitmapDrawable(private val image: Bitmap) :
+    RectangleIntersectable(), Drawable, GameObject {
 
-    override val wDraw: Int = image.width
-    override val hDraw: Int = image.height
-    override val wInter: Int = image.width
-    override val hInter: Int = image.height
+    val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+    val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+
+    override val wDraw: Int
+        get() {
+            return image.width
+        }
+    override val hDraw: Int
+        get() {
+            return image.height
+        }
+    override val wInter: Int
+        get() {
+            return image.width
+        }
+    override val hInter: Int
+        get() {
+            return image.height
+        }
 
     val h: Int
         get() {
@@ -25,11 +39,9 @@ open class BitmapDrawable(private var image: Bitmap) : RectangleIntersectable(),
             return wDraw
         }
 
-    val screenWidth = Resources.getSystem().displayMetrics.widthPixels
-    val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
-    override var xInter: Float = - w.toFloat()
-    override var xDraw: Float = - w.toFloat()
+    override var xInter: Float = 0f
+    override var xDraw: Float = 0f
     var x: Float
         get() = xDraw
         set(value) {
@@ -47,18 +59,12 @@ open class BitmapDrawable(private var image: Bitmap) : RectangleIntersectable(),
             yInter = value
         }
 
-
     override fun draw(canvas: Canvas) {
-        canvas.drawBitmap(image, xDraw, yDraw, null)
+        canvas.drawBitmap(image, x, y, null)
     }
 
     fun drawRotated(canvas: Canvas, rotationDegrees: Float = 0f) {
-
-        val matrix = Matrix().apply { postRotate(rotationDegrees) }
-        val rotatedBitmap =
-            Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
-        canvas.drawBitmap(rotatedBitmap, xDraw, yDraw, null)
-
+        canvas.drawBitmap(image.rotatedBitmap(rotationDegrees), x, y, null)
     }
 
 }

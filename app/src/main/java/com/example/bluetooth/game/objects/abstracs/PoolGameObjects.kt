@@ -4,7 +4,9 @@ import android.graphics.Canvas
 import com.example.bluetooth.game.objects.interf.GameObject
 import com.example.bluetooth.game.objects.interf.Intersectable
 
-abstract class PoolGameObjects(private val list: List<GameObject>) : GameObject {
+abstract class PoolGameObjects<T : GameObject>() : GameObject {
+
+    abstract val list: MutableList<T>
 
     override val wDraw: Int = 0
     override val hDraw: Int = 0
@@ -21,6 +23,5 @@ abstract class PoolGameObjects(private val list: List<GameObject>) : GameObject 
         val intersectedList = list.filter { it.doIntersect(target) }
         return intersectedList.isNotEmpty()
     }
-
 
 }

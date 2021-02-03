@@ -1,8 +1,6 @@
 package com.example.bluetooth.game.objects.actual
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.util.Log
 import com.example.bluetooth.game.GameView
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable

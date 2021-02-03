@@ -37,7 +37,6 @@ class CalibrationActivity : BluetoothActivity() {
         val parent = this
 
         distBar.apply {
-            progress = distProgress
             max = 90
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -60,7 +59,6 @@ class CalibrationActivity : BluetoothActivity() {
         }
 
         speedBar.apply {
-            progress = speedProgress
             max = 80
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -83,7 +81,6 @@ class CalibrationActivity : BluetoothActivity() {
         }
 
         delayBar.apply {
-            progress = delayProgress
             max = 4500
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

@@ -17,25 +17,23 @@ import com.example.bluetooth.R
 import com.example.bluetooth.activity.EndGameActivity
 import com.example.bluetooth.game.objects.actual.FinishLine
 import com.example.bluetooth.game.objects.actual.GroupObstacles
-import com.example.bluetooth.game.objects.actual.Obstacle
 import com.example.bluetooth.game.objects.actual.Player
 import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.Intersectable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
 import com.example.bluetooth.game.objects.interf.Updatable
 import com.example.bluetooth.utils.leftPad
+import com.example.bluetooth.utils.resizedBitmap
+import com.example.bluetooth.utils.rotatedBitmap
 import kotlin.math.max
 
 class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
     SurfaceHolder.Callback {
 
     private var thread: GameThread? = null
-
-    private var needUpdate: Boolean = false
-    private var newInput: Int = 0
-
     var paused: Boolean = false
 
+    // Intent params
     var minValue: Int? = null
     var maxValue: Int? = null
     var speed: Int? = null
@@ -43,6 +41,11 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     var delay: Int? = null
     var activity: AppCompatActivity? = null
 
+    // Input Vars
+    private var needUpdate: Boolean = false
+    private var newInput: Int = 0
+
+    // Game vars
     var currentSpeed: Int = 0
     var currentPos: Int = 0
 
@@ -52,7 +55,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     private val collisionEffectDuration: Int = 100
 
     private var startTime: Long = 0
-
 
     companion object {
         val listUpdatable: MutableList<Updatable> = mutableListOf()
@@ -110,25 +112,24 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
             collisionPenalty = (it * 2) / 3
         }
 
+        val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+
+        // load images
+        val obstacleBitmap = BitmapFactory
+            .decodeResource(resources, R.drawable.asteroide)
+            .resizedBitmap(screenHeight / 20)
+        val finishBitmap = BitmapFactory
+            .decodeResource(resources, R.drawable.finish)
+            .resizedBitmap(screenHeight)
+        val playerBitmap = BitmapFactory.decodeResource(resources, R.drawable.fusee)
+            .resizedBitmap(screenHeight / 10)
+            .rotatedBitmap(90f)
+
 
 //         Setup the game objects
-        val groupObstacles = GroupObstacles(
-            this,
-            listOf(
-                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
-                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
-                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
-                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
-                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
-                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade)),
-                Obstacle(this, BitmapFactory.decodeResource(resources, R.drawable.grenade))
-            )
-        )
-
-        val finishLine =
-            FinishLine(this, BitmapFactory.decodeResource(resources, R.drawable.finish))
-
-        val player = Player(this, BitmapFactory.decodeResource(resources, R.drawable.player))
+        val groupObstacles = GroupObstacles(this, obstacleBitmap)
+        val finishLine = FinishLine(this, finishBitmap)
+        val player = Player(this, playerBitmap)
 
         // register the game objects
         listDrawable.apply {
