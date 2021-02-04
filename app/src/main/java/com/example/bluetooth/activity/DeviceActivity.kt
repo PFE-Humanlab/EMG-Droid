@@ -37,7 +37,7 @@ class DeviceActivity : BluetoothActivity() {
 
         // Setup start game button
         startCalibrButton.setOnClickListener {
-            val mContext = startCalibrButton.context
+            val mContext = it.context
             val intent = Intent(mContext, CalibrationActivity::class.java)
             mContext.startActivity(intent)
         }

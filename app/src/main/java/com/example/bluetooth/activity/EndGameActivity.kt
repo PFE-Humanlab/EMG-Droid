@@ -1,5 +1,6 @@
 package com.example.bluetooth.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bluetooth.R
@@ -29,11 +30,39 @@ class EndGameActivity : AppCompatActivity() {
 
         collFinalText.text = collCount.toString()
 
-        goCalibrationButton.setOnClickListener {
+        val endless = intent.getBooleanExtra("endless", false)
 
+        // Todo : get bagdes if not endless, update best endless score
+
+
+        // setup buttons callbacks
+        goCalibrationButton.setOnClickListener {
+            val mContext = it.context
+            val intent = Intent(mContext, CalibrationActivity::class.java)
+            mContext.startActivity(intent)
         }
 
+
         tryAgainButton.setOnClickListener {
+
+            val speed = intent.getIntExtra("speed", 10)
+            val distance = intent.getIntExtra("distance", 10)
+            val delay = intent.getIntExtra("delay", 500)
+            val minValue = intent.getIntExtra("min", 0)
+            val maxValue = intent.getIntExtra("max", 700)
+
+            val mContext = it.context
+
+            val intent = Intent(mContext, GameActivity::class.java)
+
+            intent.putExtra("speed", speed)
+            intent.putExtra("distance", distance)
+            intent.putExtra("delay", delay)
+            intent.putExtra("min", minValue)
+            intent.putExtra("max", maxValue)
+            intent.putExtra("endless", endless)
+
+            mContext.startActivity(intent)
 
         }
 

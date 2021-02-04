@@ -17,6 +17,7 @@ import com.example.bluetooth.R
 import com.example.bluetooth.activity.EndGameActivity
 import com.example.bluetooth.game.objects.actual.FinishLine
 import com.example.bluetooth.game.objects.actual.GroupObstacles
+import com.example.bluetooth.game.objects.actual.GroupStars
 import com.example.bluetooth.game.objects.actual.Player
 import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.Intersectable
@@ -39,6 +40,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     var speed: Int? = null
     var distance: Int? = null
     var delay: Int? = null
+    var endless: Boolean? = null
     var activity: AppCompatActivity? = null
 
     // Input Vars
@@ -67,28 +69,15 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     init {
         // add callback
         holder.addCallback(this)
+
+//        this.setZOrderOnTop(true)
+
+//        holder.setFormat(PixelFormat.TRANSPARENT)
     }
 
     fun handleCollision() {
         collisionsCount++
-
-        Log.i("Collision", "handleCollision: nb Collisions : $collisionsCount")
-        Log.i("Collision", "handleCollision: pos : $currentPos")
-        Log.i("Collision", "handleCollision: dist : $distance")
-        Log.i("Collision", "handleCollision: speed : $currentSpeed")
-
         currentSpeed = max(currentSpeed - collisionPenalty, 0)
-
-        Log.i("Collision", "handleCollision: speed : $currentSpeed")
-
-        val delta = (System.nanoTime() / 1000000) - startTime
-
-        val minutes = (delta / 1000) / 60
-        val seconds = (delta / 1000) % 60
-
-        Log.i("Collision", "handleCollision: minutes : $minutes")
-        Log.i("Collision", "handleCollision: seconds : $seconds")
-
         collisionEffectTimer = collisionEffectDuration
     }
 
@@ -118,23 +107,35 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         val obstacleBitmap = BitmapFactory
             .decodeResource(resources, R.drawable.asteroide)
             .resizedBitmap(screenHeight / 20)
-        val finishBitmap = BitmapFactory
-            .decodeResource(resources, R.drawable.finish)
-            .resizedBitmap(screenHeight)
         val playerBitmap = BitmapFactory.decodeResource(resources, R.drawable.fusee)
             .resizedBitmap(screenHeight / 10)
             .rotatedBitmap(90f)
 
+        val finishBitmap = BitmapFactory
+            .decodeResource(resources, R.drawable.finish)
+            .resizedBitmap(screenHeight)
+
+        val listStars = listOf(
+            BitmapFactory.decodeResource(resources, R.drawable.star4)
+                .resizedBitmap(screenHeight / 50),
+            BitmapFactory.decodeResource(resources, R.drawable.star5)
+                .resizedBitmap(screenHeight / 50),
+        )
 
 //         Setup the game objects
         val groupObstacles = GroupObstacles(this, obstacleBitmap)
-        val finishLine = FinishLine(this, finishBitmap)
         val player = Player(this, playerBitmap)
+        val backgroundStar = GroupStars(this, listStars)
+
+        val finishLine = FinishLine(this, finishBitmap)
 
         // register the game objects
         listDrawable.apply {
+            add(Pair(backgroundStar, -1))
             add(Pair(groupObstacles, 0))
-            add(Pair(finishLine, 0))
+            if (endless == false) {
+                add(Pair(finishLine, 0))
+            }
             add(Pair(player, 1))
         }
 
@@ -144,10 +145,14 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         listPlayersIntersectables.add(player)
 
         listUpdatable.apply {
+            add(backgroundStar)
             add(groupObstacles)
             add(player)
-            add(finishLine)
+            if (endless == false) {
+                add(finishLine)
+            }
         }
+
         listPlayerUpdatable.add(player)
 
 
@@ -200,7 +205,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     fun update(deltaTimeMillis: Long) {
         // update Speed
         if (paused) {
-            Log.i("EndGame", "endGame: update after end ")
             return
         }
 
@@ -238,11 +242,10 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         }
 
         // Check if game is over
-        distance?.let {
-
-            if (currentPos > it) {
-                endGame()
-            }
+        if ((endless == true && collisionsCount > 10)
+            || (endless == false && distance != null && currentPos > distance!!)
+        ) {
+            endGame()
         }
 
 
@@ -250,27 +253,30 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
 
     private fun pauseGame() {
         paused = true
-
     }
 
     private fun endGame() {
 
         pauseGame()
 
-        Log.i("EndGame", "endGame: Start Join ")
 
         stopAndJoinThread()
 
-        Log.i("EndGame", "endGame: End Join ")
 
         val intent = Intent(context, EndGameActivity::class.java)
 
         intent.putExtra("collision", collisionsCount)
         intent.putExtra("timeMillis", (System.nanoTime() / 1000000) - startTime)
 
-        Log.i("EndGame", "endGame: Start New Activity ")
+        // For try again, originals values :
+        intent.putExtra("speed", speed ?: 10)
+        intent.putExtra("distance", distance ?: 10)
+        intent.putExtra("delay", delay ?: 500)
+        intent.putExtra("min", minValue ?: 0)
+        intent.putExtra("max", maxValue ?: 700)
+        intent.putExtra("endless", endless ?: false)
+
         context.startActivity(intent)
-        Log.i("EndGame", "endGame: Activity Started")
 
     }
 
@@ -302,7 +308,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
      */
     override fun draw(canvas: Canvas) {
         // Draw game objects
-
         super.draw(canvas)
 
         if (paused) {

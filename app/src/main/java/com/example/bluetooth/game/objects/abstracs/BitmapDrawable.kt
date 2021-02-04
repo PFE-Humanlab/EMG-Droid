@@ -40,8 +40,8 @@ open class BitmapDrawable(private val image: Bitmap) :
         }
 
 
-    override var xInter: Float = 0f
-    override var xDraw: Float = 0f
+    override var xInter: Float = screenWidth.toFloat()
+    override var xDraw: Float = screenWidth.toFloat()
     var x: Float
         get() = xDraw
         set(value) {

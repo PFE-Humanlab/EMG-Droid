@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
 import com.example.bluetooth.R
-import com.example.bluetooth.game.GameActivity
 import com.example.bluetooth.utils.BluetoothActivity
 import kotlinx.android.synthetic.main.activity_calibration.*
 
@@ -59,7 +58,7 @@ class CalibrationActivity : BluetoothActivity() {
         }
 
         speedBar.apply {
-            max = 80
+            max = 9
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -67,7 +66,7 @@ class CalibrationActivity : BluetoothActivity() {
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    speedProgress = progress + 20
+                    speedProgress = progress + 1
 
                     val speedV = parent.findViewById<TextView>(R.id.speedValueText)
                     speedV?.let {
@@ -109,11 +108,12 @@ class CalibrationActivity : BluetoothActivity() {
 
             val intent = Intent(mContext, GameActivity::class.java)
 
-            intent.putExtra("speed", speedProgress)
-            intent.putExtra("distance", distProgress)
+            intent.putExtra("speed", speedProgress * 100)
+            intent.putExtra("distance", distProgress * 1000)
             intent.putExtra("min", minValue)
             intent.putExtra("max", maxValue)
             intent.putExtra("delay", delayProgress)
+            intent.putExtra("endless", false)
 
             mContext.startActivity(intent)
         }

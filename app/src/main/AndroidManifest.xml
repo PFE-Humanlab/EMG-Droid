@@ -39,13 +39,13 @@
         </activity>
         <activity
             android:name=".activity.ListFilesActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".game.GameActivity"
+            android:name=".activity.GameActivity"
             android:parentActivityName=".activity.CalibrationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -53,12 +53,12 @@
         </activity>
         <activity
             android:name=".activity.DeviceActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

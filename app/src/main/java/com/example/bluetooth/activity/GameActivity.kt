@@ -1,4 +1,4 @@
-package com.example.bluetooth.game
+package com.example.bluetooth.activity
 
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import com.example.bluetooth.R
+import com.example.bluetooth.game.GameView
 import com.example.bluetooth.utils.BluetoothActivity
 import kotlinx.android.synthetic.main.activity_game.*
 
@@ -48,11 +49,12 @@ class GameActivity : BluetoothActivity() {
         gView.activity = this
 
         gView.apply {
-            speed = intent.getIntExtra("speed", 10) * 10
-            distance = intent.getIntExtra("distance", 10) * 1000
+            speed = intent.getIntExtra("speed", 10)
+            distance = intent.getIntExtra("distance", 10)
+            delay = intent.getIntExtra("delay", 500)
             minValue = intent.getIntExtra("min", 0)
             maxValue = intent.getIntExtra("max", 700)
-            delay = intent.getIntExtra("delay", 500)
+            endless = intent.getBooleanExtra("endless", false)
 
             initGame()
         }

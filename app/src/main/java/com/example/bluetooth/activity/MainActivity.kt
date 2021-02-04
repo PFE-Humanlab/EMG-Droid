@@ -1,4 +1,4 @@
-package com.example.bluetooth
+package com.example.bluetooth.activity
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
@@ -7,13 +7,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bluetooth.activity.ListFilesActivity
+import com.example.bluetooth.R
 import com.example.bluetooth.bluetooth_recycler_view.RecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private var recView: RecyclerView? = null
 
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
@@ -59,9 +57,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        recView?.apply {
-            adapter = bluetoothAdapter?.let { RecyclerViewAdapter(context, it) }
-        }
+        val recList = recyclerList
+
+        recList.adapter = bluetoothAdapter?.let { RecyclerViewAdapter(recList.context, it) }
 
     }
 }

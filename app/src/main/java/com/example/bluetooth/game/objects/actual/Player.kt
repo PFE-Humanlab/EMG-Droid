@@ -12,16 +12,15 @@ class Player(private val gameView: GameView, image: Bitmap) : BitmapDrawable(ima
 
     private val speed: Float = screenHeight.toFloat()
 
-    override fun playerUpdate(value: Int) {
+    val topOffset = 32
+    val botOffset = 32
 
-        x = 32f
+    override fun playerUpdate(value: Int) {
 
         if (gameView.minValue == null || gameView.maxValue == null) {
             return
         }
         // Value by Min, max mapped to 32, screenHeight - 32 - w
-        val topOffset = 32
-        val botOffset = 32
         val factor = (screenHeight - topOffset - botOffset)
 
         val centered = value - gameView.minValue!!
@@ -32,6 +31,16 @@ class Player(private val gameView: GameView, image: Bitmap) : BitmapDrawable(ima
     }
 
     override fun tickUpdate(deltaTimeMillis: Long) {
+
+        if (y < 0) {
+            y = topOffset.toFloat()
+        }
+        if (y + w > screenHeight) {
+            y = (screenHeight - w - botOffset).toFloat()
+        }
+        x = 32f
+
+
 
         if (y + h < destination) { // si au dessus de la destination
 
