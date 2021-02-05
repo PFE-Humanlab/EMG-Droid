@@ -17,6 +17,7 @@
     <string name="max">Max</string>
     <string name="distance">Distance to End</string>
     <string name="_three_digit_default_number">100</string>
+    <string name="default_seek_bar_value">1</string>
     <string name="time">Time</string>
     <string name="collisions">Collisions</string>
     <string name="delay_between_obstacles">Delay between obstacles</string>

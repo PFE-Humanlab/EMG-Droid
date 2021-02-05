@@ -1,30 +1,27 @@
 package com.example.bluetooth.game.objects.actual
 
 import android.graphics.Bitmap
-import com.example.bluetooth.game.GameView
+import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
 
-class Player(private val gameView: GameView, image: Bitmap) : BitmapDrawable(image),
+class Player(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable(image),
     PlayerUpdatable {
 
-    var destination: Float = 0f
+    private var destination: Float = 0f
 
     private val speed: Float = screenHeight.toFloat()
 
-    val topOffset = 32
-    val botOffset = 32
+    private val topOffset = 32
+    private val botOffset = 32
 
     override fun playerUpdate(value: Int) {
 
-        if (gameView.minValue == null || gameView.maxValue == null) {
-            return
-        }
         // Value by Min, max mapped to 32, screenHeight - 32 - w
         val factor = (screenHeight - topOffset - botOffset)
 
-        val centered = value - gameView.minValue!!
-        val reduced = centered / gameView.maxValue!!.toFloat()
+        val centered = value - gameLogic.minValue
+        val reduced = centered / gameLogic.maxValue.toFloat()
         val sized = reduced * factor
         destination = topOffset + sized
 
@@ -50,11 +47,8 @@ class Player(private val gameView: GameView, image: Bitmap) : BitmapDrawable(ima
 
             y -= speed * deltaTimeMillis / 1000
 
-        } else { // si destination sur moi
-
-            // do Nothing
-
         }
+
     }
 
 }

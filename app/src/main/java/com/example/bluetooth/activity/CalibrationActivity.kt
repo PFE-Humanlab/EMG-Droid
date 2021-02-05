@@ -36,7 +36,9 @@ class CalibrationActivity : BluetoothActivity() {
         val parent = this
 
         distBar.apply {
-            max = 90
+
+            max = 9
+            progress = 0
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -44,7 +46,7 @@ class CalibrationActivity : BluetoothActivity() {
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    distProgress = progress + 10
+                    distProgress = progress + 1
 
                     val distV = parent.findViewById<TextView>(R.id.distValueText)
                     distV?.let {
@@ -59,6 +61,7 @@ class CalibrationActivity : BluetoothActivity() {
 
         speedBar.apply {
             max = 9
+            progress = 0
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -80,7 +83,8 @@ class CalibrationActivity : BluetoothActivity() {
         }
 
         delayBar.apply {
-            max = 4500
+            max = 9
+            progress = 0
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -88,7 +92,7 @@ class CalibrationActivity : BluetoothActivity() {
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    delayProgress = progress + 500
+                    delayProgress = progress + 1
 
 
                     val delayV = parent.findViewById<TextView>(R.id.delayValueText)
@@ -109,10 +113,10 @@ class CalibrationActivity : BluetoothActivity() {
             val intent = Intent(mContext, GameActivity::class.java)
 
             intent.putExtra("speed", speedProgress * 100)
-            intent.putExtra("distance", distProgress * 1000)
+            intent.putExtra("distance", distProgress * 10000)
             intent.putExtra("min", minValue)
             intent.putExtra("max", maxValue)
-            intent.putExtra("delay", delayProgress)
+            intent.putExtra("delay", delayProgress * 500)
             intent.putExtra("endless", false)
 
             mContext.startActivity(intent)

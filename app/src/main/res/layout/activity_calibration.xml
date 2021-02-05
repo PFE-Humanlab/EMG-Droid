@@ -145,7 +145,7 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="@string/_three_digit_default_number"
+        android:text="@string/default_seek_bar_value"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maxText" />
 
@@ -156,7 +156,7 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="@string/_three_digit_default_number"
+        android:text="@string/default_seek_bar_value"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/distBar" />
 
@@ -194,7 +194,7 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="@string/_three_digit_default_number"
+        android:text="@string/default_seek_bar_value"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedBar" />
 

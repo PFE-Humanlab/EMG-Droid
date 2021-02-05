@@ -3,21 +3,21 @@ package com.example.bluetooth.game.objects.actual
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import com.example.bluetooth.game.GameView
+import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.Intersectable
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 
-class Obstacle(private val gameView: GameView, image: Bitmap) : BitmapDrawable(image), Updatable {
+class Obstacle(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable(image), Updatable {
 
-    var alreadyCollided: Boolean = false
+    private var alreadyCollided: Boolean = false
 
     var active: Boolean = false
 
-    var rotationSpeed: Int = 180
-    var rotation: Int = 0
-    var rotationDirection: Int = 1
+    private var rotationSpeed: Int = 180
+    private var rotation: Int = 0
+    private var rotationDirection: Int = 1
 
     init {
         x = (-1 * w).toFloat()
@@ -27,7 +27,7 @@ class Obstacle(private val gameView: GameView, image: Bitmap) : BitmapDrawable(i
 
         if (active) {
 
-            x -= gameView.currentSpeed * deltaTimeMillis / 1000
+            x -= gameLogic.currentSpeed * deltaTimeMillis / 1000
 
             if (x + w < 0) {
                 active = false
@@ -60,7 +60,7 @@ class Obstacle(private val gameView: GameView, image: Bitmap) : BitmapDrawable(i
 
         if (intersect && !alreadyCollided) {
             alreadyCollided = true
-            gameView.handleCollision()
+            gameLogic.handleCollision()
         }
         return intersect
     }

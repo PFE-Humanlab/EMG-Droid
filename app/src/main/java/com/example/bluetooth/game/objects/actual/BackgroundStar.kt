@@ -3,12 +3,12 @@ package com.example.bluetooth.game.objects.actual
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import com.example.bluetooth.game.GameView
+import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 
-class BackgroundStar(private val gameView: GameView, image: Bitmap) : BitmapDrawable(image),
+class BackgroundStar(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable(image),
     Updatable {
 
     var active: Boolean = false
@@ -19,7 +19,7 @@ class BackgroundStar(private val gameView: GameView, image: Bitmap) : BitmapDraw
 
     override fun tickUpdate(deltaTimeMillis: Long) {
         if (active) {
-            x -= gameView.currentSpeed * deltaTimeMillis / 1000
+            x -= gameLogic.currentSpeed * deltaTimeMillis / 1000
             if (x + w < 0) {
                 active = false
             }

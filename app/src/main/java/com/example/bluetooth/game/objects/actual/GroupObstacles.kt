@@ -1,18 +1,17 @@
 package com.example.bluetooth.game.objects.actual
 
 import android.graphics.Bitmap
-import com.example.bluetooth.game.GameView
+import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.PoolGameObjects
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 
-class GroupObstacles(private val gameView: GameView, private val image: Bitmap) :
+class GroupObstacles(private val gameLogic: GameLogic, private val image: Bitmap) :
     PoolGameObjects<Obstacle>(), Updatable {
 
     override val list: MutableList<Obstacle> = mutableListOf()
 
-    // easy : 5000, hard : 500
-    private val delayBetweenObstacles: Int = gameView.delay!!
+    private val delayBetweenObstacles: Int = gameLogic.delay
 
     private var delay: Int = 0
 
@@ -27,7 +26,7 @@ class GroupObstacles(private val gameView: GameView, private val image: Bitmap) 
             var availableObstacle = list.find { !it.active }
 
             if (availableObstacle == null) {
-                availableObstacle = Obstacle(gameView, image)
+                availableObstacle = Obstacle(gameLogic, image)
                 list.add(availableObstacle)
             }
 

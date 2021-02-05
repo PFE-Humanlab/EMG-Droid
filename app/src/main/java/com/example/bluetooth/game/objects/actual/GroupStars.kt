@@ -1,20 +1,20 @@
 package com.example.bluetooth.game.objects.actual
 
 import android.graphics.Bitmap
-import com.example.bluetooth.game.GameView
+import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.PoolGameObjects
 import com.example.bluetooth.game.objects.interf.Updatable
 import com.example.bluetooth.utils.rotatedBitmap
 import kotlin.random.Random
 
-class GroupStars(private val gameView: GameView, private val listImage: List<Bitmap>) :
+class GroupStars(private val gameLogic: GameLogic, private val listImage: List<Bitmap>) :
     PoolGameObjects<BackgroundStar>(), Updatable {
 
     override val list: MutableList<BackgroundStar> = mutableListOf()
     override var xDraw: Float = 0f
     override var yDraw: Float = 0f
 
-    private val delayBetweenStars: Int = gameView.delay!! / 10
+    private val delayBetweenStars: Int = gameLogic.delay / 10
 
     private var delay: Int = 0
 
@@ -25,11 +25,10 @@ class GroupStars(private val gameView: GameView, private val listImage: List<Bit
             var freeStar = list.find { !it.active }
 
             if (freeStar == null) {
-                val image = listImage
-                    .get(Random.nextInt(listImage.size))
+                val image = listImage[Random.nextInt(listImage.size)]
                     .rotatedBitmap(Random.nextInt(360).toFloat())
 
-                freeStar = BackgroundStar(gameView, image)
+                freeStar = BackgroundStar(gameLogic, image)
                 list.add(freeStar)
             }
 

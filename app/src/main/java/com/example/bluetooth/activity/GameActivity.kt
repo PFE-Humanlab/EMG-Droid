@@ -59,13 +59,6 @@ class GameActivity : BluetoothActivity() {
             initGame()
         }
 
-
-        Log.i("GameLoop", "onCreate: speed = ${gView.speed}")
-        Log.i("GameLoop", "onCreate: dist = ${gView.distance}")
-        Log.i("GameLoop", "onCreate: min = ${gView.minValue}")
-        Log.i("GameLoop", "onCreate: max = ${gView.maxValue}")
-
-
     }
 
     override fun callSuccess(value: Int) {
