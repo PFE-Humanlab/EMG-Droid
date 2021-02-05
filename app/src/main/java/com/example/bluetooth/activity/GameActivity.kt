@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : BluetoothActivity() {
 
+    lateinit var playerName: String
     private lateinit var gView: GameView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +24,17 @@ class GameActivity : BluetoothActivity() {
         supportActionBar?.hide()
 //        hide the title bar
 
+        playerName = intent.getStringExtra("playerName") ?: return finish()
 
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val controller = window.insetsController
 
             if (controller != null) {
-                controller.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                controller.hide(
+                    WindowInsets.Type.statusBars() or
+                            WindowInsets.Type.navigationBars()
+                )
                 controller.systemBarsBehavior =
                     WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
@@ -48,12 +52,23 @@ class GameActivity : BluetoothActivity() {
         gView.activity = this
 
         gView.apply {
+            // level data
+            endless = intent.getBooleanExtra("endless", false)
+            // Todo
+            if(endless == true){
+
+            } else {
+
+            }
+
             speed = intent.getIntExtra("speed", 10)
             distance = intent.getIntExtra("distance", 10)
             delay = intent.getIntExtra("delay", 500)
+
+
+            // calibr data
             minValue = intent.getIntExtra("min", 0)
             maxValue = intent.getIntExtra("max", 700)
-            endless = intent.getBooleanExtra("endless", false)
 
             initGame()
         }

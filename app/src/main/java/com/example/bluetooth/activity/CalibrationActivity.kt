@@ -11,6 +11,8 @@ import kotlinx.android.synthetic.main.activity_calibration.*
 
 class CalibrationActivity : BluetoothActivity() {
 
+    private lateinit var playerName: String
+
     private var minValue = 1000
 
     private var maxValue = 0
@@ -33,6 +35,8 @@ class CalibrationActivity : BluetoothActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calibration)
+
+        playerName = intent.getStringExtra("playerName") ?: return finish()
 
         val parent = this
 
@@ -114,11 +118,13 @@ class CalibrationActivity : BluetoothActivity() {
             val intent = Intent(mContext, GameActivity::class.java)
 
             intent.putExtra("speed", speedProgress * 100)
-            intent.putExtra("distance", distProgress * 10000)
+            intent.putExtra("distance", distProgress * 1000)
+            intent.putExtra("delay", delayProgress * 500)
             intent.putExtra("min", minValue)
             intent.putExtra("max", maxValue)
-            intent.putExtra("delay", delayProgress * 500)
             intent.putExtra("endless", false)
+
+            intent.putExtra("playerName", playerName)
 
             mContext.startActivity(intent)
         }

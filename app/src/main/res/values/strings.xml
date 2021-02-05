@@ -33,5 +33,7 @@
     <string name="name">Name</string>
     <string name="select">Select</string>
     <string name="create">Create</string>
+    <string name="new_player">New Player</string>
+    <string name="name_taken_text">This name is already taken. Please choose another one.</string>
 
 </resources>

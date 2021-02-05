@@ -33,12 +33,14 @@ class EndGameActivity : AppCompatActivity() {
         val endless = intent.getBooleanExtra("endless", false)
 
         // Todo : get bagdes if not endless, update best endless score
+        val playerName = intent.getStringExtra("playerName") ?: return finish()
 
 
         // setup buttons callbacks
         goCalibrationButton.setOnClickListener {
             val mContext = it.context
             val intent = Intent(mContext, CalibrationActivity::class.java)
+            intent.putExtra("playerName", playerName)
             mContext.startActivity(intent)
         }
 
@@ -61,6 +63,7 @@ class EndGameActivity : AppCompatActivity() {
             intent.putExtra("min", minValue)
             intent.putExtra("max", maxValue)
             intent.putExtra("endless", endless)
+            intent.putExtra("playerName", playerName)
 
             mContext.startActivity(intent)
 

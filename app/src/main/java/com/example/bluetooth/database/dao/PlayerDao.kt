@@ -1,27 +1,35 @@
 package com.example.bluetooth.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.bluetooth.database.models.Player
+import com.example.bluetooth.database.models.jointure.PlayerWithRecord
+import com.example.bluetooth.database.models.jointure.PlayerWithScore
 
 @Dao
 interface PlayerDao {
 
     @Query("SELECT * FROM players")
-    fun getAll(): List<Player>
+    suspend fun getAll(): List<Player>
 
-    @Query("SELECT name FROM players")
+    @Query("SELECT playerName FROM players")
     suspend fun getAllNames(): MutableList<String>
 
-    @Query("SELECT * FROM players WHERE name = :name")
-    suspend fun getPlayerByName(name : String) : Player
+    @Query("SELECT * FROM players WHERE playerName = :name")
+    suspend fun getPlayerByName(name: String): Player
 
     @Insert
     suspend fun insertAll(vararg players: Player)
 
     @Update
-    fun updatePlayers(vararg players: Player)
+    suspend fun updatePlayers(vararg players: Player)
+
+    @Transaction
+    @Query("SELECT * FROM players WHERE playerName = :name")
+    suspend fun getPlayerWithRecord(name: String): PlayerWithRecord
+
+    @Transaction
+    @Query("SELECT * FROM players WHERE playerName = :name")
+    fun getPlayerWithScore(name: String): PlayerWithScore
+
 
 }

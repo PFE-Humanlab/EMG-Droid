@@ -47,10 +47,10 @@
         </activity>
         <activity
             android:name=".activity.ListFilesActivity"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".activity.SelectDeviceActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.SelectDeviceActivity" />
         </activity>
         <activity
             android:name=".activity.GameActivity"
@@ -61,12 +61,12 @@
         </activity>
         <activity
             android:name=".activity.DeviceActivity"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".activity.SelectDeviceActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.SelectDeviceActivity" />
         </activity>
-        <activity android:name=".activity.MainActivity"
+        <activity android:name=".activity.SelectDeviceActivity"
             android:parentActivityName=".activity.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

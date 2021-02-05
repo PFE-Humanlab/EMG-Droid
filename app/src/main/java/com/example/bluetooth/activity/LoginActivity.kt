@@ -1,33 +1,53 @@
 package com.example.bluetooth.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.bluetooth.R
 import com.example.bluetooth.database.AppDatabase
+import com.example.bluetooth.database.models.Level
 import com.example.bluetooth.database.models.Player
-import com.example.bluetooth.database.models.ViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class LoginActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListener,CoroutineScope {
+class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, CoroutineScope {
+
+    private fun checkForLevels(db: AppDatabase) {
+        launch {
+            if (db.levelDao().getAll().isEmpty()) {
+                populateLevels(db)
+            }
+        }
+    }
+
+    private suspend fun populateLevels(db: AppDatabase) {
+        db.levelDao().insertAll(
+            Level(1, 1, 5, 1), // 10 sec (dist * 10 / speed)
+            Level(2, 2, 5, 3), // 15 sec
+            Level(3, 2, 3, 3), // 15 sec
+            Level(4, 3, 5, 6), // 20 sec
+            Level(5, 3, 3, 6), // 20 sec
+            Level(6, 4, 5, 8), // 20 sec
+            Level(7, 4, 3, 8), // 20 sec
+            Level(8, 5, 3, 10) // 20 sec
+        )
+    }
 
     override val coroutineContext: CoroutineContext
         get() {
             return Dispatchers.Main
         }
     private lateinit var db: AppDatabase
-    private var choice = "New Player"
-    val model : ViewModel by viewModels()
+    private val defaultChoice = getString(R.string.new_player)
+    private var choice = defaultChoice
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,50 +56,59 @@ class LoginActivity() : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         db = AppDatabase.getInstance(applicationContext)
         val playerDao = db.playerDao()
 
-        var playersName : MutableList<String> = mutableListOf()
-        launch{
+        var playersName: MutableList<String> = mutableListOf()
+
+        launch {
             playersName = playerDao.getAllNames()
             onResult(playersName)
         }
+
         selectPlayerButton.setOnClickListener {
             Log.i("TAG", "le choix est : $choice ")
-            if (choice.equals("New Player")){
+            if (choice == defaultChoice) {
                 selectPlayerButton.visibility = View.INVISIBLE
                 spinner.visibility = View.INVISIBLE
                 createPlayerButton.visibility = View.VISIBLE
                 createPlayerText.visibility = View.VISIBLE
-            }else{
+            } else {
                 launch {
-                    model.player = playerDao.getPlayerByName(choice)
-                    changeActivity()
+                    changeActivity(choice)
                 }
             }
         }
+
         createPlayerButton.setOnClickListener {
             val newPlayerName = createPlayerText.text.toString()
-            if (playersName.contains(newPlayerName)){
-                Toast.makeText(this, "This name is already taken. Please choose another one.", Toast.LENGTH_SHORT).show()
-            }else{
+            if (playersName.contains(newPlayerName)) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.name_taken_text),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
                 launch {
                     val player = Player(newPlayerName)
                     playerDao.insertAll(player)
-                    model.player = player
-                    changeActivity()
+
+                    changeActivity(player.playerName)
                 }
             }
         }
 
+        checkForLevels(db)
     }
 
-    fun onResult(result: MutableList<String>){
+    private fun onResult(result: MutableList<String>) {
         spinner.onItemSelectedListener = this
-        val spinnerAdapter = ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,result)
-        spinnerAdapter.insert("New Player",0)
+        val spinnerAdapter =
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, result)
+        spinnerAdapter.insert(defaultChoice, 0)
         spinner.adapter = spinnerAdapter
     }
 
-    fun changeActivity(){
-        val intent = Intent(this,MainActivity::class.java)
+    private fun changeActivity(name: String) {
+        val intent = Intent(this, SelectDeviceActivity::class.java)
+        intent.putExtra("playerName", name)
         this.startActivity(intent)
     }
 

@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bluetooth.R
 
-class ListFilesAdapter(private val mContext: Context) :
+class ListFilesAdapter(
+    private val mContext: Context,
+    val playerName: String,
+    private val fileList: List<String>
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var fileList: Array<String> = mContext.fileList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +22,7 @@ class ListFilesAdapter(private val mContext: Context) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        (holder as ListFilesHolder).bind(fileList[position], mContext)
+        (holder as ListFilesHolder).bind(fileList[position],playerName,  mContext)
 
     }
 

@@ -6,14 +6,13 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.example.bluetooth.R
 import com.example.bluetooth.activity.EndGameActivity
+import com.example.bluetooth.activity.GameActivity
 import com.example.bluetooth.utils.leftPad
 
 class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
@@ -26,7 +25,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     // Intent params : ste by activity
     var speed: Int? = null
     var endless: Boolean? = null
-    var activity: AppCompatActivity? = null
+    var activity: GameActivity? = null
     var distance: Int? = null
     var minValue: Int? = null
     var maxValue: Int? = null
@@ -117,6 +116,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         intent.putExtra("min", minValue ?: 0)
         intent.putExtra("max", maxValue ?: 700)
         intent.putExtra("endless", endless ?: false)
+        intent.putExtra("playerName", activity!!.playerName)
 
         context.startActivity(intent)
 

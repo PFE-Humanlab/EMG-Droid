@@ -5,7 +5,7 @@ import android.util.Log
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
 
-class Player(private val minValue: Int, private val maxValue: Int, image: Bitmap) : BitmapDrawable(image),
+class Rocket(private val minValue: Int, private val maxValue: Int, image: Bitmap) : BitmapDrawable(image),
     PlayerUpdatable {
 
     private var destination: Float = 0f

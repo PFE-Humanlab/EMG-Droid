@@ -6,7 +6,7 @@ import com.example.bluetooth.R
 import com.example.bluetooth.game.objects.actual.FinishLine
 import com.example.bluetooth.game.objects.actual.GroupObstacles
 import com.example.bluetooth.game.objects.actual.GroupStars
-import com.example.bluetooth.game.objects.actual.Player
+import com.example.bluetooth.game.objects.actual.Rocket
 import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.Intersectable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
@@ -89,7 +89,7 @@ class GameLogic(
         )
 
 //         Setup the game objects
-        val player = Player(minValue, maxValue, playerBitmap)
+        val player = Rocket(minValue, maxValue, playerBitmap)
         val finishLine = FinishLine(this, distance, finishBitmap)
         val groupObstacles = GroupObstacles(this, delayOfObstacles, obstacleBitmap)
         val backgroundStar = GroupStars(this, delayOfObstacles, listStars)

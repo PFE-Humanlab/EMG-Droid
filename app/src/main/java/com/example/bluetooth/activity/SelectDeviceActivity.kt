@@ -11,8 +11,9 @@ import com.example.bluetooth.R
 import com.example.bluetooth.bluetooth_recycler_view.RecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class SelectDeviceActivity : AppCompatActivity() {
 
+    private lateinit var playerName: String
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     private val requestCodeBluetooth = 1
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+
+        playerName = intent.getStringExtra("playerName")!!
 
         if (bluetoothAdapter == null) {
 
@@ -42,13 +45,14 @@ class MainActivity : AppCompatActivity() {
             recyclerList.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)
-                adapter = RecyclerViewAdapter(context, bluetoothAdapter)
+                adapter = RecyclerViewAdapter(context, bluetoothAdapter, playerName)
             }
 
         }
 
         loadButton.setOnClickListener {
             val intent = Intent(loadButton.context, ListFilesActivity::class.java)
+            intent.putExtra("playerName", playerName)
             loadButton.context.startActivity(intent)
         }
 
@@ -59,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         val recList = recyclerList
 
-        recList.adapter = bluetoothAdapter?.let { RecyclerViewAdapter(recList.context, it) }
+        recList.adapter = bluetoothAdapter?.let { RecyclerViewAdapter(recList.context, it, playerName) }
 
     }
 }
