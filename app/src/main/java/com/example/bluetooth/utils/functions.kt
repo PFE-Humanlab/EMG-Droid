@@ -2,6 +2,8 @@ package com.example.bluetooth.utils
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun String.leftPad(wantedLength: Int, character: String = " "): String {
     var i = 0
@@ -43,4 +45,9 @@ fun Bitmap.resizedBitmap(newHeight: Int): Bitmap {
     )
 
     return resizedBitmap
+}
+
+fun Date.toSimpleString() : String {
+    val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.FRENCH)
+    return format.format(this)
 }

@@ -7,14 +7,14 @@ import com.example.bluetooth.game.objects.interf.Updatable
 import com.example.bluetooth.utils.rotatedBitmap
 import kotlin.random.Random
 
-class GroupStars(private val gameLogic: GameLogic, private val listImage: List<Bitmap>) :
+class GroupStars(private val gameLogic: GameLogic, delayObstacle : Int, private val listImage: List<Bitmap>) :
     PoolGameObjects<BackgroundStar>(), Updatable {
 
     override val list: MutableList<BackgroundStar> = mutableListOf()
     override var xDraw: Float = 0f
     override var yDraw: Float = 0f
 
-    private val delayBetweenStars: Int = gameLogic.delay / 10
+    private val delayBetweenStars: Int = delayObstacle / 10
 
     private var delay: Int = 0
 

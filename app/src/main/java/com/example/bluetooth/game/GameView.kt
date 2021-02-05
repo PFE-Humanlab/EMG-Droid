@@ -50,7 +50,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
             delay!!
         ) { endGame() }
 
-        Log.i("TAG", "initGame: GameLogic Created")
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -128,12 +127,16 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         // Todo : don't forget to remove after testing
 
         if (event != null) {
+            // yTouched € [0, System.Height]
             val yTouched = event.y.toInt()
-            minValue = 0
-            maxValue = 700
+            // [0, System.Height] / System.Height => [0, 1]
+            val centered = yTouched / Resources.getSystem().displayMetrics.heightPixels.toFloat()
+            // [0, 1] * (max - min) => [0, max - min]
+            val scaled = centered * (maxValue!! - minValue!!)
+            // [0, max - min] + min => [min, max]
+            val newValue = scaled + minValue!!
 
-            val newValue = yTouched / Resources.getSystem().displayMetrics.heightPixels.toFloat()
-            gameLogic.updatePlayer((newValue * maxValue!!).toInt())
+            gameLogic.updatePlayer(newValue.toInt())
         }
 
         return super.onTouchEvent(event)
@@ -150,11 +153,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     override fun draw(canvas: Canvas) {
         // Draw game objects
         super.draw(canvas)
-
-        if (gameLogic.paused) {
-            Log.i("EndGame", "endGame: draw paused ")
-            return
-        }
 
         gameLogic.listDrawable.forEach {
             it.first.draw(canvas)

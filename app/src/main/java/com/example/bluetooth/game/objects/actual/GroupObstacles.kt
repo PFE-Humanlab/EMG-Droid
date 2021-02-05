@@ -6,12 +6,12 @@ import com.example.bluetooth.game.objects.abstracs.PoolGameObjects
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 
-class GroupObstacles(private val gameLogic: GameLogic, private val image: Bitmap) :
+class GroupObstacles(private val gameLogic: GameLogic, delayObstacles : Int, private val image: Bitmap) :
     PoolGameObjects<Obstacle>(), Updatable {
 
     override val list: MutableList<Obstacle> = mutableListOf()
 
-    private val delayBetweenObstacles: Int = gameLogic.delay
+    private val delayBetweenObstacles: Int = delayObstacles
 
     private var delay: Int = 0
 

@@ -12,6 +12,7 @@
     <string name="load_data">Load Data</string>
     <string name="speed">Speed</string>
     <string name="calibration">Calibration</string>
+    <string name="start_calibration">Game</string>
     <string name="calibration_summary">Contract and decontract to fix the min and max value</string>
     <string name="min">Min</string>
     <string name="max">Max</string>

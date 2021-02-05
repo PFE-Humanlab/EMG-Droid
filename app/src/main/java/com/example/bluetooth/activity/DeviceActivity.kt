@@ -9,17 +9,19 @@ import android.os.Bundle
 import com.example.bluetooth.R
 import com.example.bluetooth.utils.BluetoothActivity
 import com.example.bluetooth.utils.BluetoothCommunication
+import com.example.bluetooth.utils.toSimpleString
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.activity_device.*
 import java.io.FileWriter
+import java.util.*
 
 class DeviceActivity : BluetoothActivity() {
 
     private lateinit var device: BluetoothDevice
     private var lastXValue = 0
     private var maxY = 100
-    private var maxDataPoints = 100
+    private var maxDataPoints = 200
 
     private var isRecording = false
 
@@ -42,7 +44,7 @@ class DeviceActivity : BluetoothActivity() {
             mContext.startActivity(intent)
         }
 
-        fileName.setText(System.currentTimeMillis().toString())
+        fileName.setText(Date().toSimpleString())
         startButton.text = getString(R.string.start_recording)
 
         startButton.setOnClickListener {
@@ -54,7 +56,7 @@ class DeviceActivity : BluetoothActivity() {
 
                 // si champ vide prend timestamp
                 if (fileName.text == null || fileName.text.toString() == "") {
-                    fileName.setText(System.currentTimeMillis().toString())
+                    fileName.setText(Date().toSimpleString())
                 }
 
                 val fileNameString = fileName.text.toString()

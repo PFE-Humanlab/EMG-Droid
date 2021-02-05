@@ -2,7 +2,6 @@ package com.example.bluetooth.game
 
 import android.content.res.Resources
 import android.graphics.BitmapFactory
-import android.util.Log
 import com.example.bluetooth.R
 import com.example.bluetooth.game.objects.actual.FinishLine
 import com.example.bluetooth.game.objects.actual.GroupObstacles
@@ -21,37 +20,35 @@ class GameLogic(
     private val speed: Int,
     private val distance: Int,
     private val endless: Boolean,
-    val minValue: Int,
-    val maxValue: Int,
-    val delay: Int,
+    minValue: Int,
+    maxValue: Int,
+    delayOfObstacles: Int,
     val endGame: () -> Unit
 ) {
 
-
-    var paused: Boolean = false
-
     var currentSpeed: Int = 0
+
     var currentPos: Int = 0
-
-
     var collisionsCount: Int = 0
+
     var startTime: Long = 0
     val listDrawable: MutableList<Pair<Drawable, Int>> = mutableListOf()
 
     private val listUpdatable: MutableList<Updatable> = mutableListOf()
+
     private val listPlayersIntersectables: MutableList<Intersectable> = mutableListOf()
     private val listObstaclesIntersectables: MutableList<Intersectable> = mutableListOf()
     private val listPlayerUpdatable: MutableList<PlayerUpdatable> = mutableListOf()
-
     private var collisionPenalty: Int = 500
+
     private var collisionEffectTimer: Int = 0
     private val collisionEffectDuration: Int = 100
 
+    private var paused: Boolean = false
     private var needUpdate: Boolean = false
     private var newInput: Int = 0
 
     init {
-        Log.i("TAG", "init: Start Init Game Logic")
 
         // init lists
         listDrawable.removeAll { true }
@@ -92,10 +89,10 @@ class GameLogic(
         )
 
 //         Setup the game objects
-        val groupObstacles = GroupObstacles(this, obstacleBitmap)
-        val player = Player(this, playerBitmap)
-        val backgroundStar = GroupStars(this, listStars)
+        val player = Player(minValue, maxValue, playerBitmap)
         val finishLine = FinishLine(this, distance, finishBitmap)
+        val groupObstacles = GroupObstacles(this, delayOfObstacles, obstacleBitmap)
+        val backgroundStar = GroupStars(this, delayOfObstacles, listStars)
 
         // register the game objects
         listDrawable.apply {
@@ -126,6 +123,7 @@ class GameLogic(
     }
 
     fun update(deltaTimeMillis: Long) {
+
         // update Speed
         if (paused) {
             return
@@ -169,7 +167,7 @@ class GameLogic(
 
     }
 
-    fun setPause(paused : Boolean) {
+    fun setPause(paused: Boolean) {
         this.paused = paused
     }
 

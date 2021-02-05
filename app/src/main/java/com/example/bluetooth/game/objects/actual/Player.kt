@@ -1,11 +1,11 @@
 package com.example.bluetooth.game.objects.actual
 
 import android.graphics.Bitmap
-import com.example.bluetooth.game.GameLogic
+import android.util.Log
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
 
-class Player(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable(image),
+class Player(private val minValue: Int, private val maxValue: Int, image: Bitmap) : BitmapDrawable(image),
     PlayerUpdatable {
 
     private var destination: Float = 0f
@@ -17,17 +17,24 @@ class Player(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable(i
 
     override fun playerUpdate(value: Int) {
 
-        // Value by Min, max mapped to 32, screenHeight - 32 - w
         val factor = (screenHeight - topOffset - botOffset)
 
-        val centered = value - gameLogic.minValue
-        val reduced = centered / gameLogic.maxValue.toFloat()
+        // value € [min , Max]
+        // [min , Max] - min => [0, max - min]
+        val centered = value - minValue
+        // [0, max - min] / (max - min) => [0, 1]
+        val reduced = centered / (maxValue - minValue).toFloat()
+        // [0, 1] * (screenHeight - topOffset - botOffset) => [0, screenHeight - topOffset - botOffset]
         val sized = reduced * factor
-        destination = topOffset + sized
+
+        // [0, screenHeight - topOffset - botOffset] + topOffset => [topOffset, Height - botOffset]
+        destination = sized + topOffset
+
 
     }
 
     override fun tickUpdate(deltaTimeMillis: Long) {
+
 
         if (y < 0) {
             y = topOffset.toFloat()

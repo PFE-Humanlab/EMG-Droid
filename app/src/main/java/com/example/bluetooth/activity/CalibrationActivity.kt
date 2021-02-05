@@ -2,6 +2,7 @@ package com.example.bluetooth.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.SeekBar
 import android.widget.TextView
 import com.example.bluetooth.R
@@ -14,9 +15,9 @@ class CalibrationActivity : BluetoothActivity() {
 
     private var maxValue = 0
 
-    private var distProgress = 100
-    private var speedProgress = 100
-    private var delayProgress = 1000
+    private var distProgress = 1
+    private var speedProgress = 1
+    private var delayProgress = 1
 
     private fun updateValues(value: Int) {
         if (value < minValue) {

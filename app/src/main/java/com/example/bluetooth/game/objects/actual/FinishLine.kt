@@ -5,8 +5,8 @@ import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.Updatable
 
-class FinishLine(private val gameLogic: GameLogic,val distance : Int,  image: Bitmap) : BitmapDrawable(image),
-    Updatable {
+class FinishLine(private val gameLogic: GameLogic, private val distance: Int, image: Bitmap) :
+    BitmapDrawable(image), Updatable {
 
     init {
         y = 0f

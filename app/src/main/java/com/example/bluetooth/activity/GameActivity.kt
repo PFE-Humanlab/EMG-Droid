@@ -2,7 +2,6 @@ package com.example.bluetooth.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowInsetsController
