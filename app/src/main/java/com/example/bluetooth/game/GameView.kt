@@ -1,12 +1,13 @@
 package com.example.bluetooth.game
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
+import android.view.MotionEvent
+import com.example.bluetooth.utils.uniformTransform
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.TextView
@@ -14,7 +15,6 @@ import com.example.bluetooth.R
 import com.example.bluetooth.activity.EndGameActivity
 import com.example.bluetooth.activity.GameActivity
 import com.example.bluetooth.utils.leftPad
-import com.example.bluetooth.utils.uniformTransform
 
 class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
     SurfaceHolder.Callback {
@@ -125,28 +125,27 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        // Todo : don't forget to remove after testing
-
-        if (event != null) {
-
-            gameLogic.updatePlayer(
-                event.y.uniformTransform(
-                    0f,
-                    Resources.getSystem().displayMetrics.heightPixels.toFloat(),
-                    minValue!!.toFloat(),
-                    maxValue!!.toFloat()
-                ).toInt()
-            )
-        }
-
-        return super.onTouchEvent(event)
-    }
+//    Debug : uncomment when you need to control with screen touch instead of EMG
+//    @SuppressLint("ClickableViewAccessibility")
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//
+//        if (event != null) {
+//
+//            gameLogic.updatePlayer(
+//                event.y.uniformTransform(
+//                    0f,
+//                    Resources.getSystem().displayMetrics.heightPixels.toFloat(),
+//                    minValue!!.toFloat(),
+//                    maxValue!!.toFloat()
+//                ).toInt()
+//            )
+//        }
+//
+//        return super.onTouchEvent(event)
+//    }
 
     fun updatePlayer(value: Int) {
-        // Todo : don't forget to uncomment after testing
-//        gameLogic.updatePlayer(value)
+        gameLogic.updatePlayer(value)
     }
 
     /**

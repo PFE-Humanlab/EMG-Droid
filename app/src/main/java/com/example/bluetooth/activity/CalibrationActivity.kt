@@ -215,7 +215,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 
     override fun callSuccess(value: Int) {

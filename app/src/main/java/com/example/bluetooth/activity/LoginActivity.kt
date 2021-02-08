@@ -30,14 +30,14 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
 
     private suspend fun populateLevels(db: AppDatabase) {
         db.levelDao().insertAll(
-            Level(1, 2, 5, 2), // 10 sec (dist * 10 / speed)
-            Level(2, 3, 5, 4), // 15 sec
-            Level(3, 3, 3, 4), // 15 sec
-            Level(4, 4, 5, 8), // 20 sec
-            Level(5, 4, 3, 8), // 20 sec
-            Level(6, 5, 5, 10), // 20 sec
-            Level(7, 5, 3, 10), // 20 sec
-            Level(8, 6, 3, 12) // 20 sec
+            Level(1, 2, 5, 2), // 10 sec (dist * 10 / speed), 4 obst ( duration / (delay / 2))
+            Level(2, 3, 5, 4), // 15 sec, 6 obst
+            Level(3, 3, 3, 4), // 15 sec, 10 o
+            Level(4, 4, 5, 8), // 20 sec, 8 o
+            Level(5, 4, 3, 8), // 20 sec, 13 o
+            Level(6, 5, 5, 10), // 20 sec, 8 o
+            Level(7, 5, 3, 10), // 20 sec, 13 o
+            Level(8, 6, 3, 12) // 20 sec,8 o
         )
     }
 
@@ -131,6 +131,5 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 }
