@@ -41,5 +41,6 @@
     <string name="endless">Endless</string>
     <string name="level">Level %1$s</string>
     <string name="select_level">Select Level</string>
+    <string name="best_time">Best Time</string>
 
 </resources>

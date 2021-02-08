@@ -11,6 +11,9 @@ interface LevelDAO {
     @Query("SELECT * FROM levels")
     suspend fun getAll(): List<Level>
 
+    @Query("SELECT * FROM levels WHERE levelId = :levelId")
+    suspend fun getById(levelId: Int): Level
+
     @Query("SELECT COUNT(*) FROM levels")
     suspend fun countAll(): Int
 

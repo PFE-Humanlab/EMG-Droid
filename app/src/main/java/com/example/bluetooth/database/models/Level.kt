@@ -13,8 +13,12 @@ data class Level(
     val threshold: Int
         get() {
             val duration = 10 * distance / speed.toFloat()
+
             val qtObstacles = duration * 2 / delay
-            return (qtObstacles / 3).toInt()
+
+            val finalThreshold = (qtObstacles / 3).toInt() + 1
+
+            return if (finalThreshold > 3) 3 else finalThreshold
         }
 }
 

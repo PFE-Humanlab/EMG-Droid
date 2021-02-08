@@ -30,6 +30,7 @@ class LevelArrayAdapter(
         convertView: View?,
         parent: ViewGroup?
     ): View {
+        // Todo : reuse level_row.xml
 
         val view2 = convertView ?: LayoutInflater.from(context)
             .inflate(R.layout.list_row_level, parent, false)

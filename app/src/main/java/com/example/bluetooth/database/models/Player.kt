@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "players")
 data class Player(@PrimaryKey var playerName: String) {
 
-    //var recordList : List<Record> = listOf()
-
     var maxLevel: Int = 1
+    var bestEndless : Long = -1
 }

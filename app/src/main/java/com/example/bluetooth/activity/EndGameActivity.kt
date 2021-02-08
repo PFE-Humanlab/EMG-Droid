@@ -2,12 +2,24 @@ package com.example.bluetooth.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bluetooth.R
+import com.example.bluetooth.database.AppDatabase
+import com.example.bluetooth.database.models.BestScore
 import com.example.bluetooth.utils.leftPad
 import kotlinx.android.synthetic.main.activity_end_game.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class EndGameActivity : AppCompatActivity() {
+class EndGameActivity : AppCompatActivity(), CoroutineScope {
+
+    override val coroutineContext: CoroutineContext
+        get() {
+            return Dispatchers.Main
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +43,72 @@ class EndGameActivity : AppCompatActivity() {
 
         val endless = intent.getBooleanExtra("endless", false)
 
-        // Todo : get bagdes if not endless, update best endless score
         val playerName = intent.getStringExtra("playerName") ?: return finish()
+
+        // get bestScore
+        val db = AppDatabase.getInstance(this)
+
+        // update visibility
+        if (endless) {
+            endBadgeImageView.visibility = View.INVISIBLE
+            endBadgeTextView.visibility = View.INVISIBLE
+        } else {
+            bestTimeTextView.visibility = View.INVISIBLE
+            bestTimeValueTextView.visibility = View.INVISIBLE
+        }
+
+        launch {
+            // calculate medal
+            if (endless) {
+                val playerDAO = db.playerDAO()
+                val player = playerDAO.getPlayerByName(playerName)
+
+                if (player.bestEndless < finalTimeMillis) {
+                    player.bestEndless = finalTimeMillis
+                    playerDAO.updatePlayers(player)
+                }
+
+                bestTimeValueTextView.text = player.bestEndless.toString()
+
+            } else {
+
+                val bestScoreDAO = db.bestScoreDAO()
+                val bestScore = bestScoreDAO.getBestScore(playerName, levelId)
+
+                if (bestScore == null) {
+                    val bestScores = BestScore(playerName, levelId)
+                    bestScores.collisions = collCount
+                    bestScoreDAO.insertAll(bestScores)
+                } else {
+
+                    if (collCount < bestScore.collisions) {
+                        bestScore.collisions = collCount
+                        bestScoreDAO.updateBestScore(bestScore)
+                    }
+
+                }
+
+                val level = db.levelDAO().getById(levelId)
+
+                val medalImage: Int
+
+                val medalText: String
+                if (collCount == 0) { // gold
+                    medalImage = R.drawable.gold_medal
+                    medalText = "Gold"
+                } else if (collCount < level.threshold) { // silver
+                    medalImage = R.drawable.silver_medal
+                    medalText = "Silver"
+                } else { // bronze
+                    medalImage = R.drawable.bronze_medal
+                    medalText = "Bronze"
+                }
+
+                endBadgeImageView.setImageResource(medalImage)
+                endBadgeTextView.text = medalText
+
+            }
+        }
 
 
         // setup buttons callbacks
@@ -62,6 +138,8 @@ class EndGameActivity : AppCompatActivity() {
             intent.putExtra("min", minValue)
             intent.putExtra("max", maxValue)
             intent.putExtra("endless", endless)
+
+            // Meta infos
             intent.putExtra("playerName", playerName)
             intent.putExtra("levelId", levelId)
 

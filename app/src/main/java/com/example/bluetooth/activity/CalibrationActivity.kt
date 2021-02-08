@@ -153,7 +153,7 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
 
         toggleEndless(false)
         launch {
-            levelList = db.levelDao().getAll()
+            levelList = db.levelDAO().getAll()
             populateSpinner()
         }
 
