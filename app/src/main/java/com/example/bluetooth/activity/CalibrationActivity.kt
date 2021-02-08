@@ -10,7 +10,8 @@ import android.widget.TextView
 import com.example.bluetooth.R
 import com.example.bluetooth.database.AppDatabase
 import com.example.bluetooth.database.models.Level
-import com.example.bluetooth.spinner_level_adapter.LevelArrayAdapter
+import com.example.bluetooth.database.models.jointure.PlayerWithScore
+import com.example.bluetooth.adapter.spinner_level_adapter.LevelArrayAdapter
 import com.example.bluetooth.utils.BluetoothActivity
 import kotlinx.android.synthetic.main.activity_calibration.*
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +33,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
 
     private var maxValue = 0
 
-    private var distProgress = 1
     private var speedProgress = 1
     private var delayProgress = 1
 
@@ -46,9 +46,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
 
         val visEndless = if (bool) View.VISIBLE else View.INVISIBLE
 
-        distText.visibility = visEndless
-        distValueText.visibility = visEndless
-        distBar.visibility = visEndless
         speedBar.visibility = visEndless
         speedValueText.visibility = visEndless
         speedText.visibility = visEndless
@@ -79,30 +76,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
         val parent = this
 
         val db = AppDatabase.getInstance(this)
-
-        distBar.apply {
-
-            max = 9
-            progress = 0
-
-            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                ) {
-                    distProgress = progress + 1
-
-                    val distV = parent.findViewById<TextView>(R.id.distValueText)
-                    distV?.let {
-                        it.text = distProgress.toString()
-                    }
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-            })
-        }
 
         speedBar.apply {
             max = 9
@@ -154,24 +127,26 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
         toggleEndless(false)
         launch {
             levelList = db.levelDAO().getAll()
-            populateSpinner()
+            val playerWithScore = db.playerDAO().getPlayerWithScore(playerName)
+            populateSpinner(playerWithScore)
         }
 
         startGameButton.setOnClickListener {
             val mContext = it.context
             if (isEndless) {
-                changeActivity(mContext, speedProgress, distProgress, delayProgress)
+                changeActivity(mContext, speedProgress, -1, delayProgress)
             } else {
                 changeActivity(mContext, choice.speed, choice.distance, choice.delay)
             }
 
         }
+
         badgesButton.setOnClickListener {
             val mContext = it.context
 
             val intent = Intent(mContext, BadgesActivity::class.java)
 
-            intent.putExtra("playerName",playerName)
+            intent.putExtra("playerName", playerName)
             mContext.startActivity(intent)
         }
     }
@@ -198,15 +173,17 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
     private val levelEndless = Level(-1, 0, 0, 0)
     private var choice = levelEndless
 
-    private fun populateSpinner() {
+    private fun populateSpinner(playerWithScore: PlayerWithScore) {
 
         selectLevelSpinner.onItemSelectedListener = this
+
+        val newLevelId = playerWithScore.levels.maxOf { it.levelId } + 1
 
         val spinnerAdapter =
             LevelArrayAdapter(
                 this,
                 R.layout.support_simple_spinner_dropdown_item,
-                levelList
+                levelList.filter { it.levelId <= newLevelId }
             )
 
         spinnerAdapter.add(levelEndless)

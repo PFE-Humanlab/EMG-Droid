@@ -90,17 +90,20 @@ class GameLogic(
 
 //         Setup the game objects
         val player = Rocket(minValue, maxValue, playerBitmap)
-        val finishLine = FinishLine(this, distance, finishBitmap)
         val groupObstacles = GroupObstacles(this, delayOfObstacles, obstacleBitmap)
         val backgroundStar = GroupStars(this, delayOfObstacles, listStars)
+
+        if (!endless) {
+            val finishLine = FinishLine(this, distance, finishBitmap)
+            listDrawable.add(Pair(finishLine, 0))
+            listUpdatable.add(finishLine)
+
+        }
 
         // register the game objects
         listDrawable.apply {
             add(Pair(backgroundStar, -1))
             add(Pair(groupObstacles, 0))
-            if (!endless) {
-                add(Pair(finishLine, 0))
-            }
             add(Pair(player, 1))
         }
 
@@ -113,9 +116,6 @@ class GameLogic(
             add(backgroundStar)
             add(groupObstacles)
             add(player)
-            if (!endless) {
-                add(finishLine)
-            }
         }
 
         listPlayerUpdatable.add(player)

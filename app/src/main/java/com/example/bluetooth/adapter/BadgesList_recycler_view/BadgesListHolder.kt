@@ -1,4 +1,4 @@
-package com.example.bluetooth.recycler_views.BadgesList_recycler_view
+package com.example.bluetooth.adapter.BadgesList_recycler_view
 
 import android.content.Context
 import android.view.View
@@ -25,7 +25,7 @@ class BadgesListHolder(var view: View) : RecyclerView.ViewHolder(view) {
         } else if (collisions == 0) {
             medalImage = R.drawable.gold_medal
             medalText = "Gold"
-        } else if (collisions < level.threshold) {
+        } else if (collisions <= level.threshold) {
             medalImage = R.drawable.silver_medal
             medalText = "Silver"
         } else {

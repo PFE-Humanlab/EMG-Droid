@@ -1,4 +1,4 @@
-package com.example.bluetooth.recycler_views.list_files_recycler_view
+package com.example.bluetooth.adapter.list_files_recycler_view
 
 import android.content.Context
 import android.content.Intent

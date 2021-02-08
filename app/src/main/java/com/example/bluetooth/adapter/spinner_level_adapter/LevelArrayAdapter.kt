@@ -1,4 +1,4 @@
-package com.example.bluetooth.spinner_level_adapter
+package com.example.bluetooth.adapter.spinner_level_adapter
 
 import android.content.Context
 import android.view.LayoutInflater

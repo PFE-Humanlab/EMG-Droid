@@ -96,7 +96,7 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
                 if (collCount == 0) { // gold
                     medalImage = R.drawable.gold_medal
                     medalText = "Gold"
-                } else if (collCount < level.threshold) { // silver
+                } else if (collCount <= level.threshold) { // silver
                     medalImage = R.drawable.silver_medal
                     medalText = "Silver"
                 } else { // bronze

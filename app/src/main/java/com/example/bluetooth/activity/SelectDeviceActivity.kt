@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bluetooth.R
-import com.example.bluetooth.recycler_views.bluetooth_recycler_view.RecyclerViewAdapter
+import com.example.bluetooth.adapter.bluetooth_recycler_view.RecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class SelectDeviceActivity : AppCompatActivity() {

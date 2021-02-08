@@ -29,7 +29,7 @@ interface PlayerDAO {
 
     @Transaction
     @Query("SELECT * FROM players WHERE playerName = :name")
-    fun getPlayerWithScore(name: String): PlayerWithScore
+    suspend fun getPlayerWithScore(name: String): PlayerWithScore
 
 
 }

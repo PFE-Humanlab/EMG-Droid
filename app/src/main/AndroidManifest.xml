@@ -14,15 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BlueTooth">
 
-        <activity
-            android:name=".activity.EndGameActivity"
-            android:parentActivityName=".activity.DeviceActivity"
-            android:theme="@style/Theme.BlueTooth.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.DeviceActivity" />
-        </activity>
-
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +23,30 @@
         </activity>
 
         <activity
+            android:name=".activity.EndGameActivity"
+            android:parentActivityName=".activity.DeviceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.DeviceActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.BadgesActivity"
+            android:parentActivityName=".activity.CalibrationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CalibrationActivity" />
+
+        </activity>
+
+        <activity
             android:name=".activity.CalibrationActivity"
             android:parentActivityName=".activity.DeviceActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.DeviceActivity" />
         </activity>
+
         <activity
             android:name=".activity.ViewDataActivity"
             android:parentActivityName=".activity.ListFilesActivity">
@@ -45,6 +54,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ListFilesActivity" />
         </activity>
+
         <activity
             android:name=".activity.ListFilesActivity"
             android:parentActivityName=".activity.SelectDeviceActivity">
@@ -52,6 +62,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SelectDeviceActivity" />
         </activity>
+
         <activity
             android:name=".activity.GameActivity"
             android:parentActivityName=".activity.CalibrationActivity">
@@ -59,6 +70,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.CalibrationActivity" />
         </activity>
+
         <activity
             android:name=".activity.DeviceActivity"
             android:parentActivityName=".activity.SelectDeviceActivity">
@@ -66,12 +78,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SelectDeviceActivity" />
         </activity>
-        <activity android:name=".activity.SelectDeviceActivity"
+
+        <activity
+            android:name=".activity.SelectDeviceActivity"
             android:parentActivityName=".activity.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.LoginActivity" />
         </activity>
+
     </application>
 
 </manifest>
