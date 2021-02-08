@@ -9,4 +9,12 @@ data class Level(
     val speed: Int,
     val delay: Int,
     val distance: Int
-)
+) {
+    val threshold: Int
+        get() {
+            val duration = 10 * distance / speed.toFloat()
+            val qtObstacles = duration * 2 / delay
+            return (qtObstacles / 3).toInt()
+        }
+}
+

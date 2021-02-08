@@ -54,12 +54,7 @@ class GameActivity : BluetoothActivity() {
         gView.apply {
             // level data
             endless = intent.getBooleanExtra("endless", false)
-            // Todo
-            if(endless == true){
-
-            } else {
-
-            }
+            levelId = intent.getIntExtra("levelId", -1)
 
             speed = intent.getIntExtra("speed", 10)
             distance = intent.getIntExtra("distance", 10)

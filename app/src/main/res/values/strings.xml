@@ -38,5 +38,8 @@
     <string name="badges">Badges</string>
     <string name="medal">Medal</string>
     <string name="not_played">Not played yet !</string>
+    <string name="endless">Endless</string>
+    <string name="level">Level %1$s</string>
+    <string name="select_level">Select Level</string>
 
 </resources>

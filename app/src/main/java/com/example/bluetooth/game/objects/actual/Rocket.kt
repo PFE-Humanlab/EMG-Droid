@@ -1,11 +1,12 @@
 package com.example.bluetooth.game.objects.actual
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.example.bluetooth.game.objects.abstracs.BitmapDrawable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
+import com.example.bluetooth.utils.uniformTransform
 
-class Rocket(private val minValue: Int, private val maxValue: Int, image: Bitmap) : BitmapDrawable(image),
+class Rocket(private val minValue: Int, private val maxValue: Int, image: Bitmap) :
+    BitmapDrawable(image),
     PlayerUpdatable {
 
     private var destination: Float = 0f
@@ -17,19 +18,13 @@ class Rocket(private val minValue: Int, private val maxValue: Int, image: Bitmap
 
     override fun playerUpdate(value: Int) {
 
-        val factor = (screenHeight - topOffset - botOffset)
-
-        // value € [min , Max]
-        // [min , Max] - min => [0, max - min]
-        val centered = value - minValue
-        // [0, max - min] / (max - min) => [0, 1]
-        val reduced = centered / (maxValue - minValue).toFloat()
-        // [0, 1] * (screenHeight - topOffset - botOffset) => [0, screenHeight - topOffset - botOffset]
-        val sized = reduced * factor
-
         // [0, screenHeight - topOffset - botOffset] + topOffset => [topOffset, Height - botOffset]
-        destination = sized + topOffset
-
+        destination = value.toFloat().uniformTransform(
+            minValue.toFloat(),
+            maxValue.toFloat(),
+            topOffset.toFloat(),
+            (screenHeight - botOffset).toFloat()
+        )
 
     }
 
