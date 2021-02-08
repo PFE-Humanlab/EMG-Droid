@@ -30,6 +30,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     var minValue: Int? = null
     var maxValue: Int? = null
     var delay: Int? = null
+    var levelId: Int? = null
 
 
     init {
@@ -117,6 +118,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         intent.putExtra("max", maxValue ?: 700)
         intent.putExtra("endless", endless ?: false)
         intent.putExtra("playerName", activity!!.playerName)
+        intent.putExtra("levelId", levelId)
 
         context.startActivity(intent)
 

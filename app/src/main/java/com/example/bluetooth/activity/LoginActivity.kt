@@ -45,13 +45,18 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
         get() {
             return Dispatchers.Main
         }
+
     private lateinit var db: AppDatabase
-    private val defaultChoice = getString(R.string.new_player)
-    private var choice = defaultChoice
+
+    private lateinit var defaultChoice: String
+    private lateinit var choice: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        defaultChoice = getString(R.string.new_player)
+        choice = defaultChoice
 
         db = AppDatabase.getInstance(applicationContext)
         val playerDao = db.playerDao()

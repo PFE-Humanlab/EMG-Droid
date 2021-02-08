@@ -9,15 +9,14 @@ import kotlinx.android.synthetic.main.activity_end_game.*
 
 class EndGameActivity : AppCompatActivity() {
 
-    var finalTimeMillis: Long = 0
-    var collCount: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end_game)
 
-        collCount = intent.getIntExtra("collision", -1)
-        finalTimeMillis = intent.getLongExtra("timeMillis", 0)
+        val collCount = intent.getIntExtra("collision", -1)
+        val finalTimeMillis = intent.getLongExtra("timeMillis", -1)
+        val levelId = intent.getIntExtra("levelId", -1)
 
         val min = (finalTimeMillis / 1000) / 60
         val sec = (finalTimeMillis / 1000) % 60
@@ -64,6 +63,7 @@ class EndGameActivity : AppCompatActivity() {
             intent.putExtra("max", maxValue)
             intent.putExtra("endless", endless)
             intent.putExtra("playerName", playerName)
+            intent.putExtra("levelId", levelId)
 
             mContext.startActivity(intent)
 

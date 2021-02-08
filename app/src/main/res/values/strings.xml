@@ -35,5 +35,8 @@
     <string name="create">Create</string>
     <string name="new_player">New Player</string>
     <string name="name_taken_text">This name is already taken. Please choose another one.</string>
+    <string name="endless">Endless</string>
+    <string name="level">Level %1$s</string>
+    <string name="select_level">Select Level</string>
 
 </resources>
