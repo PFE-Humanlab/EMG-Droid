@@ -32,7 +32,7 @@ class LevelArrayAdapter(
     ): View {
 
         val view2 = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.list_row, parent, false)
+            .inflate(R.layout.list_row_level, parent, false)
 
         // Endless Level ?
         val newText =

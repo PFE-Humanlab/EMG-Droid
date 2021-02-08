@@ -51,3 +51,17 @@ fun Date.toSimpleString() : String {
     val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.FRENCH)
     return format.format(this)
 }
+
+fun Float.uniformTransform(minInt: Float, maxInit: Float, minFinal: Float, maxFinal: Float) : Float{
+    // this € [min , Max]
+
+    // [min , Max] - min => [0, max - min]
+    val centered = this - minInt
+    // [0, max - min] / (max - min) => [0, 1]
+    val reduced = centered / (maxInit - minInt)
+    // [0, 1] * (maxF - minF) => [0, maxF - minF]
+    val sized = reduced * (maxFinal - minFinal)
+
+    // [0, maxF - minF] + minF => [minF, maxF]
+    return sized + minFinal
+}

@@ -14,6 +14,7 @@ import com.example.bluetooth.R
 import com.example.bluetooth.activity.EndGameActivity
 import com.example.bluetooth.activity.GameActivity
 import com.example.bluetooth.utils.leftPad
+import com.example.bluetooth.utils.uniformTransform
 
 class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
     SurfaceHolder.Callback {
@@ -129,16 +130,15 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         // Todo : don't forget to remove after testing
 
         if (event != null) {
-            // yTouched € [0, System.Height]
-            val yTouched = event.y.toInt()
-            // [0, System.Height] / System.Height => [0, 1]
-            val centered = yTouched / Resources.getSystem().displayMetrics.heightPixels.toFloat()
-            // [0, 1] * (max - min) => [0, max - min]
-            val scaled = centered * (maxValue!! - minValue!!)
-            // [0, max - min] + min => [min, max]
-            val newValue = scaled + minValue!!
 
-            gameLogic.updatePlayer(newValue.toInt())
+            gameLogic.updatePlayer(
+                event.y.uniformTransform(
+                    0f,
+                    Resources.getSystem().displayMetrics.heightPixels.toFloat(),
+                    minValue!!.toFloat(),
+                    maxValue!!.toFloat()
+                ).toInt()
+            )
         }
 
         return super.onTouchEvent(event)
