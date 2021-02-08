@@ -11,6 +11,9 @@ interface LevelDAO {
     @Query("SELECT * FROM levels")
     suspend fun getAll(): List<Level>
 
+    @Query("SELECT COUNT(*) FROM levels")
+    suspend fun countAll(): Int
+
     @Insert
     suspend fun insertAll(vararg levels: Level)
 

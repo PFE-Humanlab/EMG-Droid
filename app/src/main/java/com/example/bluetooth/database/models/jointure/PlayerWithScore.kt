@@ -14,5 +14,5 @@ data class PlayerWithScore(
         entityColumn = "levelId",
         associateBy = Junction(BestScore::class)
     )
-    val songs: List<Level>
+    val levels: List<Level>
 )

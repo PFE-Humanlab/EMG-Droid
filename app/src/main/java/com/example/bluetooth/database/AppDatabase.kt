@@ -6,15 +6,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.bluetooth.database.converter.Converter
+import com.example.bluetooth.database.dao.BestScoreDAO
 import com.example.bluetooth.database.dao.LevelDAO
-import com.example.bluetooth.database.dao.PlayerDao
+import com.example.bluetooth.database.dao.PlayerDAO
 import com.example.bluetooth.database.dao.RecordDAO
 import com.example.bluetooth.database.models.BestScore
 import com.example.bluetooth.database.models.Level
 import com.example.bluetooth.database.models.Player
 import com.example.bluetooth.database.models.Record
 
-@Database(entities = [Player::class, Level::class, Record::class, BestScore::class], version = 3)
+@Database(entities = [Player::class, Level::class, Record::class, BestScore::class], version = 4)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -37,7 +38,8 @@ abstract class AppDatabase : RoomDatabase() {
                 .build()
     }
 
-    abstract fun playerDao(): PlayerDao
-    abstract fun levelDao(): LevelDAO
+    abstract fun playerDAO(): PlayerDAO
+    abstract fun levelDAO(): LevelDAO
     abstract fun recordDAO(): RecordDAO
+    abstract fun bestScoreDAO(): BestScoreDAO
 }

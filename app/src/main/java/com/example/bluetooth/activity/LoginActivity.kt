@@ -22,14 +22,14 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
 
     private fun checkForLevels(db: AppDatabase) {
         launch {
-            if (db.levelDao().getAll().isEmpty()) {
+            if (db.levelDAO().getAll().isEmpty()) {
                 populateLevels(db)
             }
         }
     }
 
     private suspend fun populateLevels(db: AppDatabase) {
-        db.levelDao().insertAll(
+        db.levelDAO().insertAll(
             Level(1, 1, 5, 1), // 10 sec (dist * 10 / speed)
             Level(2, 2, 5, 3), // 15 sec
             Level(3, 2, 3, 3), // 15 sec
@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
         setContentView(R.layout.activity_login)
 
         db = AppDatabase.getInstance(applicationContext)
-        val playerDao = db.playerDao()
+        val playerDao = db.playerDAO()
 
         var playersName: MutableList<String> = mutableListOf()
 

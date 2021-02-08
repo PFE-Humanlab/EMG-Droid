@@ -21,6 +21,7 @@ class CalibrationActivity : BluetoothActivity() {
     private var speedProgress = 1
     private var delayProgress = 1
 
+
     private fun updateValues(value: Int) {
         if (value < minValue) {
             minValue = value
@@ -127,6 +128,14 @@ class CalibrationActivity : BluetoothActivity() {
             intent.putExtra("playerName", playerName)
 
             mContext.startActivity(intent)
+        }
+
+        badgesButton.setOnClickListener {
+            val mContext = it.context
+
+            val intent = Intent(mContext, BadgesActivity::class.java)
+
+            intent.putExtra("playerName",playerName)
         }
     }
 

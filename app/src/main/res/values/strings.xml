@@ -35,5 +35,8 @@
     <string name="create">Create</string>
     <string name="new_player">New Player</string>
     <string name="name_taken_text">This name is already taken. Please choose another one.</string>
+    <string name="badges">Badges</string>
+    <string name="medal">Medal</string>
+    <string name="not_played">Not played yet !</string>
 
 </resources>

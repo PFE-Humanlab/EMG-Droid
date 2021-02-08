@@ -6,7 +6,7 @@ import com.example.bluetooth.database.models.jointure.PlayerWithRecord
 import com.example.bluetooth.database.models.jointure.PlayerWithScore
 
 @Dao
-interface PlayerDao {
+interface PlayerDAO {
 
     @Query("SELECT * FROM players")
     suspend fun getAll(): List<Player>

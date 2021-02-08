@@ -1,4 +1,4 @@
-package com.example.bluetooth.bluetooth_recycler_view
+package com.example.bluetooth.recycler_views.bluetooth_recycler_view
 
 import android.bluetooth.BluetoothDevice
 import android.content.Context

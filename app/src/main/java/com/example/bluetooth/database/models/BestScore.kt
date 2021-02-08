@@ -7,5 +7,5 @@ class BestScore(
     val playerName : String,
     val levelId : Int
 ) {
-    var collisions: Int? = null
+    var collisions: Int = -1
 }
