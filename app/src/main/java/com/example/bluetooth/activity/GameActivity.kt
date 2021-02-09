@@ -60,7 +60,6 @@ class GameActivity : BluetoothActivity() {
             distance = intent.getIntExtra("distance", 10)
             delay = intent.getIntExtra("delay", 500)
 
-
             // calibr data
             minValue = intent.getIntExtra("min", 0)
             maxValue = intent.getIntExtra("max", 700)

@@ -6,9 +6,9 @@ import java.io.IOException
 import java.util.*
 
 class BluetoothThread(
-    val device: BluetoothDevice,
+    private val device: BluetoothDevice,
     val failure: () -> Unit,
-    val actor: ActorThread
+    private val actor: ActorThread
 ) : Thread() {
 
     @Volatile

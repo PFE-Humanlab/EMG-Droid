@@ -18,7 +18,7 @@ class ActorThread(val success: (Int) -> Unit) : Thread() {
     override fun run() {
 
         while (running) {
-            while (!values.isEmpty()) {
+            while (values.isNotEmpty()) {
 
                 var element: Int
 

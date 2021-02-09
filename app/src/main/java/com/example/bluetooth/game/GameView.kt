@@ -89,7 +89,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         gameLogic.setPause(true)
         stopAndJoinThread()
-
     }
 
     /**
