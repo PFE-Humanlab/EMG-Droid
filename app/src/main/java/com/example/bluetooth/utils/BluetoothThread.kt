@@ -2,6 +2,7 @@ package com.example.bluetooth.utils
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.util.Log
 import java.io.IOException
 import java.util.*
 
@@ -53,12 +54,40 @@ class BluetoothThread(
             return
         }
 
-        bluetoothSocket.use {
-            val inputStream = it.inputStream
+        bluetoothSocket.use { socket ->
+            val buffer = ByteArray(1000)
+            val inputStream = socket.inputStream
+            var inputString = ""
 
             while (running) {
-                val input = inputStream.read() * 3
-                actor.add(input)
+                val size = inputStream.read(buffer)
+
+                if (size > 0) {
+
+                    val bufferString = buffer.decodeToString(0, size)
+
+                    bufferString.forEach {
+
+                        if (it == ';') {
+
+                            try {
+                                val input = Integer.parseInt(inputString)
+                                actor.add(input)
+                            } catch (e: NumberFormatException) {
+                                e.printStackTrace()
+                            }
+
+                            inputString = ""
+
+                        } else {
+                            inputString += it
+                        }
+
+                    }
+
+
+                }
+
             }
 
         }

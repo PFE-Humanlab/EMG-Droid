@@ -19,6 +19,6 @@ void setup()
 void loop()
 {
   sensorValue = analogRead(sensorPin);
-  mySerial.write(sensorValue/3);
+  mySerial.print(sensorValue);
   delay(100); // freqency : 1000/delay
 }
