@@ -3,7 +3,7 @@
 #define rxPin 10
 #define txPin 11
 
-SoftwareSerial mySerial(rxPin, txPin);
+SoftwareSerial bluetoothSerial(rxPin, txPin);
 
 int sensorPin = A0;
 
@@ -11,14 +11,17 @@ int sensorValue = 0;
 
 void setup()
 {
-  mySerial.begin(9600);
-  while (!mySerial)
+  bluetoothSerial.begin(9600);
+  while (!bluetoothSerial)
   {  }
 }
 
 void loop()
 {
   sensorValue = analogRead(sensorPin);
-  mySerial.print(sensorValue);
+
+  bluetoothSerial.print(sensorValue);
+  bluetoothSerial.print(";");
+
   delay(100); // freqency : 1000/delay
 }
