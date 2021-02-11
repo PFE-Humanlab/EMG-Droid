@@ -9,12 +9,6 @@ class ActorThread(val success: (Int) -> Unit) : Thread() {
     @Volatile
     private var values: MutableList<Int> = mutableListOf()
 
-    fun setRunning(isRunning: Boolean) {
-        synchronized(running) {
-            this.running = isRunning
-        }
-    }
-
     override fun run() {
 
         while (running) {
@@ -32,6 +26,12 @@ class ActorThread(val success: (Int) -> Unit) : Thread() {
             sleep(100)
         }
 
+    }
+
+    fun setRunning(isRunning: Boolean) {
+        synchronized(running) {
+            this.running = isRunning
+        }
     }
 
     fun add(input: Int) {

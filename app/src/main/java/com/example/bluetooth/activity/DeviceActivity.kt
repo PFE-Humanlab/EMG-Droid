@@ -26,7 +26,7 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
     private lateinit var device: BluetoothDevice
     private lateinit var playerName: String
 
-    private var lastXValue = 0
+    private var lastX = 0
     private var maxY = 100
     private var maxDataPoints = 200
 
@@ -137,7 +137,7 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
 
     private fun updateGraphAndText(value: Int) {
         deviceLatestValue.text = value.toString()
-        lastXValue += 1
+        lastX += 1
 
         // Update Stored List
         if (isRecording) {
@@ -146,17 +146,15 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
 
         // update display
         series.appendData(
-            DataPoint(lastXValue.toDouble(), value.toDouble()),
+            DataPoint(lastX.toDouble(), value.toDouble()),
             true,
             maxDataPoints
         )
 
-        // TODO : update max Y by last $maxDataPoints values
         if (value > maxY) {
             maxY = value
             graph.viewport.setMaxY(maxY.toDouble())
         }
-
 
     }
 

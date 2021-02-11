@@ -4,10 +4,16 @@ import android.graphics.Bitmap
 import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.PoolGameObjects
 import com.example.bluetooth.game.objects.interf.Updatable
+import com.example.bluetooth.utils.resizedBitmap
 import com.example.bluetooth.utils.rotatedBitmap
+import com.example.bluetooth.utils.uniformTransform
 import kotlin.random.Random
 
-class GroupStars(private val gameLogic: GameLogic, delayObstacle : Int, private val listImage: List<Bitmap>) :
+class GroupStars(
+    private val gameLogic: GameLogic,
+    delayObstacle: Int,
+    private val listImage: List<Bitmap>
+) :
     PoolGameObjects<BackgroundStar>(), Updatable {
 
     override val list: MutableList<BackgroundStar> = mutableListOf()
@@ -28,7 +34,14 @@ class GroupStars(private val gameLogic: GameLogic, delayObstacle : Int, private 
                 val image = listImage[Random.nextInt(listImage.size)]
                     .rotatedBitmap(Random.nextInt(360).toFloat())
 
-                freeStar = BackgroundStar(gameLogic, image)
+                val bitmap = image.resizedBitmap(
+                    (image.height * Random.nextFloat().uniformTransform(
+                        0f, 1f,
+                        0.5f, 1f
+                    )).toInt()
+                )
+
+                freeStar = BackgroundStar(gameLogic, bitmap)
                 list.add(freeStar)
             }
 

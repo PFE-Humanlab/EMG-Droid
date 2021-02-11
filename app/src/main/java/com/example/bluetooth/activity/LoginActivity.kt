@@ -48,15 +48,15 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
 
     private lateinit var db: AppDatabase
 
-    private lateinit var defaultChoice: String
+    private lateinit var createProfileChoice: String
     private lateinit var choice: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        defaultChoice = getString(R.string.new_player)
-        choice = defaultChoice
+        createProfileChoice = getString(R.string.new_player)
+        choice = createProfileChoice
 
         db = AppDatabase.getInstance(applicationContext)
         val playerDao = db.playerDAO()
@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
 
         selectPlayerButton.setOnClickListener {
             Log.i("TAG", "le choix est : $choice ")
-            if (choice == defaultChoice) {
+            if (choice == createProfileChoice) {
                 selectPlayerButton.visibility = View.INVISIBLE
                 spinner.visibility = View.INVISIBLE
                 createPlayerButton.visibility = View.VISIBLE
@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
         spinner.onItemSelectedListener = this
         val spinnerAdapter =
             ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, result)
-        spinnerAdapter.insert(defaultChoice, 0)
+        spinnerAdapter.insert(createProfileChoice, 0)
         spinner.adapter = spinnerAdapter
     }
 
