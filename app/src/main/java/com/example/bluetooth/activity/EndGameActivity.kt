@@ -68,7 +68,14 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
                     playerDAO.updatePlayers(player)
                 }
 
-                bestTimeValueTextView.text = player.bestEndless.toString()
+                val minBest = ( player.bestEndless / 1000) / 60
+                val secBest = ( player.bestEndless / 1000) % 60
+
+                bestTimeValueTextView.text = getString(
+                    R.string.time_holder,
+                    minBest.toString().leftPad(2, "0"),
+                    secBest.toString().leftPad(2, "0")
+                )
 
             } else {
 
