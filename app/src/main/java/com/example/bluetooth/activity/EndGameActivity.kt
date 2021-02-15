@@ -21,7 +21,6 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
             return Dispatchers.Main
         }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end_game)
@@ -68,15 +67,14 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
                     playerDAO.updatePlayers(player)
                 }
 
-                val minBest = ( player.bestEndless / 1000) / 60
-                val secBest = ( player.bestEndless / 1000) % 60
+                val minBest = (player.bestEndless / 1000) / 60
+                val secBest = (player.bestEndless / 1000) % 60
 
                 bestTimeValueTextView.text = getString(
                     R.string.time_holder,
                     minBest.toString().leftPad(2, "0"),
                     secBest.toString().leftPad(2, "0")
                 )
-
             } else {
 
                 val bestScoreDAO = db.bestScoreDAO()
@@ -92,7 +90,6 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
                         bestScore.collisions = collCount
                         bestScoreDAO.updateBestScore(bestScore)
                     }
-
                 }
 
                 val level = db.levelDAO().getById(levelId)
@@ -100,23 +97,25 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
                 val medalImage: Int
 
                 val medalText: String
-                if (collCount == 0) { // gold
-                    medalImage = R.drawable.gold_medal
-                    medalText = "Gold"
-                } else if (collCount <= level.threshold) { // silver
-                    medalImage = R.drawable.silver_medal
-                    medalText = "Silver"
-                } else { // bronze
-                    medalImage = R.drawable.bronze_medal
-                    medalText = "Bronze"
+                when {
+                    collCount == 0 -> { // gold
+                        medalImage = R.drawable.gold_medal
+                        medalText = "Gold"
+                    }
+                    collCount <= level.threshold -> { // silver
+                        medalImage = R.drawable.silver_medal
+                        medalText = "Silver"
+                    }
+                    else -> { // bronze
+                        medalImage = R.drawable.bronze_medal
+                        medalText = "Bronze"
+                    }
                 }
 
                 endBadgeImageView.setImageResource(medalImage)
                 endBadgeTextView.text = medalText
-
             }
         }
-
 
         // setup buttons callbacks
         goCalibrationButton.setOnClickListener {
@@ -125,7 +124,6 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
             intent.putExtra("playerName", playerName)
             mContext.startActivity(intent)
         }
-
 
         tryAgainButton.setOnClickListener {
 
@@ -151,8 +149,6 @@ class EndGameActivity : AppCompatActivity(), CoroutineScope {
             intent.putExtra("levelId", levelId)
 
             mContext.startActivity(intent)
-
         }
-
     }
 }

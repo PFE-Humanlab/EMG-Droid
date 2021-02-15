@@ -13,7 +13,7 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
     private val targetFPS = 50
 
     fun setRunning(isRunning: Boolean) {
-        synchronized(running){
+        synchronized(running) {
             this.running = isRunning
         }
     }
@@ -44,7 +44,6 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
                     this.gameView.draw(canvas!!)
                 }
-
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
@@ -71,7 +70,5 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
                 }
             }
         }
-
     }
-
 }

@@ -23,6 +23,4 @@ abstract class BluetoothActivity : AppCompatActivity() {
 
         super.onResume()
     }
-
-
 }

@@ -45,6 +45,5 @@ class LevelArrayAdapter(
         view2.findViewById<TextView>(R.id.elementName).text = newText
 
         return view2
-
     }
 }

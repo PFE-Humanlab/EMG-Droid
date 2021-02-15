@@ -11,5 +11,4 @@ interface Drawable {
     var yDraw: Float
 
     fun draw(canvas: Canvas)
-
 }

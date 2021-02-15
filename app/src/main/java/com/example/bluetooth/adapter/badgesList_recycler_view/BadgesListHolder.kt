@@ -1,4 +1,4 @@
-package com.example.bluetooth.adapter.BadgesList_recycler_view
+package com.example.bluetooth.adapter.badgesList_recycler_view
 
 import android.content.Context
 import android.view.View
@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.level_row.view.*
 
 class BadgesListHolder(var view: View) : RecyclerView.ViewHolder(view) {
 
-
     fun bind(level: Level, bestScore: BestScore?, context: Context) {
 
         val medalImage: Int
@@ -18,19 +17,24 @@ class BadgesListHolder(var view: View) : RecyclerView.ViewHolder(view) {
         val collisions = bestScore?.collisions ?: -1
         var colText = collisions.toString()
 
-        if (collisions == -1) {
-            medalImage = R.drawable.no_medal
-            medalText = ""
-            colText = context.getString(R.string.not_played)
-        } else if (collisions == 0) {
-            medalImage = R.drawable.gold_medal
-            medalText = "Gold"
-        } else if (collisions <= level.threshold) {
-            medalImage = R.drawable.silver_medal
-            medalText = "Silver"
-        } else {
-            medalImage = R.drawable.bronze_medal
-            medalText = "Bronze"
+        when {
+            collisions == -1 -> {
+                medalImage = R.drawable.no_medal
+                medalText = ""
+                colText = context.getString(R.string.not_played)
+            }
+            collisions == 0 -> {
+                medalImage = R.drawable.gold_medal
+                medalText = "Gold"
+            }
+            collisions <= level.threshold -> {
+                medalImage = R.drawable.silver_medal
+                medalText = "Silver"
+            }
+            else -> {
+                medalImage = R.drawable.bronze_medal
+                medalText = "Bronze"
+            }
         }
 
         view.medalImageView.setImageResource(medalImage)
@@ -38,7 +42,5 @@ class BadgesListHolder(var view: View) : RecyclerView.ViewHolder(view) {
         view.numberCollisionsTextView.text = colText
 
         view.levelTextView.text = context.getString(R.string.level, level.levelId.toString())
-
     }
-
 }

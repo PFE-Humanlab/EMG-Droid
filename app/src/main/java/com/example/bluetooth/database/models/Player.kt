@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "players")
 data class Player(@PrimaryKey var playerName: String) {
     var maxLevel: Int = 1
-    var bestEndless : Long = -1
+    var bestEndless: Long = -1
 }

@@ -21,4 +21,3 @@ data class Level(
             return if (finalThreshold > 3) 3 else finalThreshold
         }
 }
-

@@ -2,12 +2,11 @@ package com.example.bluetooth.utils
 
 import android.bluetooth.BluetoothDevice
 
-
 object BluetoothCommunication {
 
     private var device: BluetoothDevice? = null
 
-    fun setDevice(dev : BluetoothDevice ){
+    fun setDevice(dev: BluetoothDevice) {
         device = dev
     }
 
@@ -63,6 +62,4 @@ object BluetoothCommunication {
         actorThread?.setRunning(true)
         actorThread?.start()
     }
-
-
 }

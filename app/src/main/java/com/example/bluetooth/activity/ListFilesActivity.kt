@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bluetooth.R
-import com.example.bluetooth.database.AppDatabase
 import com.example.bluetooth.adapter.list_files_recycler_view.ListFilesAdapter
+import com.example.bluetooth.database.AppDatabase
 import kotlinx.android.synthetic.main.activity_list_files.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +42,5 @@ class ListFilesActivity : AppCompatActivity(), CoroutineScope {
                 )
             }
         }
-
     }
 }

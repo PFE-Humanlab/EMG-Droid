@@ -1,12 +1,12 @@
 package com.example.bluetooth.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bluetooth.R
+import com.example.bluetooth.adapter.badgesList_recycler_view.BadgesListAdapter
 import com.example.bluetooth.database.AppDatabase
-import com.example.bluetooth.adapter.BadgesList_recycler_view.BadgesListAdapter
 import kotlinx.android.synthetic.main.activity_badges.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,5 +50,4 @@ class BadgesActivity : AppCompatActivity(), CoroutineScope {
             }
         }
     }
-
 }

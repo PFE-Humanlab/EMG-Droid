@@ -44,5 +44,4 @@ class Rocket(private val minValue: Int, private val maxValue: Int, image: Bitmap
             y -= speed * deltaTimeMillis / 1000
         }
     }
-
 }

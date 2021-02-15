@@ -1,6 +1,5 @@
 package com.example.bluetooth.utils
 
-
 class ActorThread(val success: (Int) -> Unit) : Thread() {
 
     @Volatile
@@ -21,11 +20,9 @@ class ActorThread(val success: (Int) -> Unit) : Thread() {
                 }
 
                 success(element)
-
             }
             sleep(100)
         }
-
     }
 
     fun setRunning(isRunning: Boolean) {
@@ -39,5 +36,4 @@ class ActorThread(val success: (Int) -> Unit) : Thread() {
             values.add(input)
         }
     }
-
 }

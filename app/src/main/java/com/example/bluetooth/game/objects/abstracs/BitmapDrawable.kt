@@ -10,7 +10,7 @@ import com.example.bluetooth.utils.rotatedBitmap
 open class BitmapDrawable(private val image: Bitmap) :
     RectangleIntersectable(), Drawable, GameObject {
 
-    val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+    private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
     override val wDraw: Int
@@ -39,7 +39,6 @@ open class BitmapDrawable(private val image: Bitmap) :
             return wDraw
         }
 
-
     override var xInter: Float = screenWidth.toFloat()
     override var xDraw: Float = screenWidth.toFloat()
     var x: Float
@@ -66,6 +65,4 @@ open class BitmapDrawable(private val image: Bitmap) :
     fun drawRotated(canvas: Canvas, rotationDegrees: Float = 0f) {
         canvas.drawBitmap(image.rotatedBitmap(rotationDegrees), x, y, null)
     }
-
 }
-

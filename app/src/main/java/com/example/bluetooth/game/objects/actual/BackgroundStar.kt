@@ -9,8 +9,8 @@ import com.example.bluetooth.game.objects.interf.Updatable
 import com.example.bluetooth.utils.uniformTransform
 import kotlin.random.Random
 
-class BackgroundStar(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable(image),
-    Updatable {
+class BackgroundStar(private val gameLogic: GameLogic, image: Bitmap) :
+    BitmapDrawable(image), Updatable {
 
     var active: Boolean = false
 
@@ -31,7 +31,6 @@ class BackgroundStar(private val gameLogic: GameLogic, image: Bitmap) : BitmapDr
             }
         }
     }
-
 
     override fun draw(canvas: Canvas) {
         if (active) {

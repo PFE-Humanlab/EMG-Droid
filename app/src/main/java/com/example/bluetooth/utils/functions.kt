@@ -3,7 +3,8 @@ package com.example.bluetooth.utils
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 fun String.leftPad(wantedLength: Int, character: String = " "): String {
     var i = 0
@@ -47,12 +48,12 @@ fun Bitmap.resizedBitmap(newHeight: Int): Bitmap {
     return resizedBitmap
 }
 
-fun Date.toSimpleString() : String {
+fun Date.toSimpleString(): String {
     val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.FRENCH)
     return format.format(this)
 }
 
-fun Float.uniformTransform(minInt: Float, maxInit: Float, minFinal: Float, maxFinal: Float) : Float{
+fun Float.uniformTransform(minInt: Float, maxInit: Float, minFinal: Float, maxFinal: Float): Float {
     // this € [min , Max]
 
     // [min , Max] - min => [0, max - min]

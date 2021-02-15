@@ -8,10 +8,10 @@ import android.widget.AdapterView
 import android.widget.SeekBar
 import android.widget.TextView
 import com.example.bluetooth.R
+import com.example.bluetooth.adapter.spinner_level_adapter.LevelArrayAdapter
 import com.example.bluetooth.database.AppDatabase
 import com.example.bluetooth.database.models.Level
 import com.example.bluetooth.database.models.jointure.PlayerWithScore
-import com.example.bluetooth.adapter.spinner_level_adapter.LevelArrayAdapter
 import com.example.bluetooth.utils.BluetoothActivity
 import kotlinx.android.synthetic.main.activity_calibration.*
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +19,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListener,
+class CalibrationActivity :
+    BluetoothActivity(),
+    AdapterView.OnItemSelectedListener,
     CoroutineScope {
 
     override val coroutineContext: CoroutineContext
@@ -52,9 +54,7 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
         delayBar.visibility = visEndless
         delayValueText.visibility = visEndless
         delayText.visibility = visEndless
-
     }
-
 
     private fun updateValues(value: Int) {
         if (value < minValue) {
@@ -112,7 +112,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
                 ) {
                     delayProgress = progress + 1
 
-
                     val delayV = parent.findViewById<TextView>(R.id.delayValueText)
                     delayV?.let {
                         it.text = delayProgress.toString()
@@ -138,7 +137,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
             } else {
                 changeActivity(mContext, choice.speed, choice.distance, choice.delay)
             }
-
         }
 
         badgesButton.setOnClickListener {
@@ -167,7 +165,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
         intent.putExtra("endless", isEndless)
         intent.putExtra("playerName", playerName)
         context.startActivity(intent)
-
     }
 
     private val levelEndless = Level(-1, 0, 0, 0)
@@ -197,7 +194,6 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
         choice = parent?.getItemAtPosition(position) as Level
 
         toggleEndless(choice == levelEndless)
-
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -212,6 +208,4 @@ class CalibrationActivity : BluetoothActivity(), AdapterView.OnItemSelectedListe
     override fun callFailure() {
         finish()
     }
-
-
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bluetooth.R
 
-class RecyclerViewAdapter(private val mContext : Context, bluetoothAdapter: BluetoothAdapter, val playerName : String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerViewAdapter(private val mContext: Context, bluetoothAdapter: BluetoothAdapter, val playerName: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val deviceList = bluetoothAdapter.bondedDevices.toMutableList()
 
@@ -22,11 +22,9 @@ class RecyclerViewAdapter(private val mContext : Context, bluetoothAdapter: Blue
         val device = deviceList[position]
 
         (holder as RecyclerViewHolder).bind(device, playerName, mContext)
-
     }
 
     override fun getItemCount(): Int {
         return deviceList.size
     }
-
 }

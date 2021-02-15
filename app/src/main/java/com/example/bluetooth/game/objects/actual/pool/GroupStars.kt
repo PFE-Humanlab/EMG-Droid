@@ -36,10 +36,12 @@ class GroupStars(
                     .rotatedBitmap(Random.nextInt(360).toFloat())
 
                 val bitmap = image.resizedBitmap(
-                    (image.height * Random.nextFloat().uniformTransform(
-                        0f, 1f,
-                        0.5f, 1f
-                    )).toInt()
+                    (
+                        image.height * Random.nextFloat().uniformTransform(
+                            0f, 1f,
+                            0.5f, 1f
+                        )
+                        ).toInt()
                 )
 
                 freeStar = BackgroundStar(gameLogic, bitmap)
@@ -49,12 +51,10 @@ class GroupStars(
             freeStar.reset()
             val randomBetween09And11 = (0.9 * Random.nextFloat() + 0.2)
             delay = (delayBetweenStars * randomBetween09And11).toInt()
-
         }
 
         list.forEach {
             it.tickUpdate(deltaTimeMillis)
         }
-
     }
 }

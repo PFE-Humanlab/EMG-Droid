@@ -22,14 +22,11 @@ class ListFilesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        (holder as ListFilesHolder).bind(fileList[position],playerName,  mContext)
-
+        (holder as ListFilesHolder).bind(fileList[position], playerName, mContext)
     }
 
     override fun getItemCount(): Int {
 
         return fileList.size
-
     }
-
 }

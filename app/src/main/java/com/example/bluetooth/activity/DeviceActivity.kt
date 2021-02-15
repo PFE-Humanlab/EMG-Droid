@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_device.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 import kotlin.coroutines.CoroutineContext
 
 class DeviceActivity : BluetoothActivity(), CoroutineScope {
@@ -92,7 +92,6 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
                             .setNegativeButton(getString(R.string.no)) { _: DialogInterface, _: Int ->
                             }
                         alertDialog.show()
-
                     } else {
                         startRecording()
                     }
@@ -110,7 +109,6 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
         graph.viewport.isYAxisBoundsManual = true
         graph.viewport.setMinY(0.0)
         graph.viewport.setMaxY(maxY.toDouble())
-
     }
 
     private fun startRecording() {
@@ -134,7 +132,6 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
         }
     }
 
-
     private fun updateGraphAndText(value: Int) {
         deviceLatestValue.text = value.toString()
         lastX += 1
@@ -155,7 +152,6 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
             maxY = value
             graph.viewport.setMaxY(maxY.toDouble())
         }
-
     }
 
     override fun callSuccess(value: Int) {
@@ -167,5 +163,4 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
     override fun callFailure() {
         finish()
     }
-
 }
