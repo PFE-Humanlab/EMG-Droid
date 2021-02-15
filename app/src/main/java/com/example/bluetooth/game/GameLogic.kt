@@ -4,8 +4,8 @@ import android.content.res.Resources
 import android.graphics.BitmapFactory
 import com.example.bluetooth.R
 import com.example.bluetooth.game.objects.actual.FinishLine
-import com.example.bluetooth.game.objects.actual.GroupObstacles
-import com.example.bluetooth.game.objects.actual.GroupStars
+import com.example.bluetooth.game.objects.actual.pool.GroupObstacles
+import com.example.bluetooth.game.objects.actual.pool.GroupStars
 import com.example.bluetooth.game.objects.actual.Rocket
 import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.Intersectable
@@ -32,6 +32,7 @@ class GameLogic(
     var collisionsCount: Int = 0
 
     var startTime: Long = 0
+
     val listDrawable: MutableList<Pair<Drawable, Int>> = mutableListOf()
 
     private val listUpdatable: MutableList<Updatable> = mutableListOf()
@@ -39,6 +40,7 @@ class GameLogic(
     private val listPlayersIntersectables: MutableList<Intersectable> = mutableListOf()
     private val listObstaclesIntersectables: MutableList<Intersectable> = mutableListOf()
     private val listPlayerUpdatable: MutableList<PlayerUpdatable> = mutableListOf()
+
     private var collisionPenalty: Int = 500
 
     private var collisionEffectTimer: Int = 0

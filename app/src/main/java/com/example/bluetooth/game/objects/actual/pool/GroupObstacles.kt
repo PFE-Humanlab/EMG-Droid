@@ -1,8 +1,9 @@
-package com.example.bluetooth.game.objects.actual
+package com.example.bluetooth.game.objects.actual.pool
 
 import android.graphics.Bitmap
 import com.example.bluetooth.game.GameLogic
 import com.example.bluetooth.game.objects.abstracs.PoolGameObjects
+import com.example.bluetooth.game.objects.actual.Obstacle
 import com.example.bluetooth.game.objects.interf.Updatable
 import kotlin.random.Random
 

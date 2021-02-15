@@ -4,7 +4,7 @@ import android.graphics.Canvas
 import com.example.bluetooth.game.objects.interf.GameObject
 import com.example.bluetooth.game.objects.interf.Intersectable
 
-abstract class PoolGameObjects<T : GameObject>() : GameObject {
+abstract class PoolGameObjects<T : GameObject> : GameObject {
 
     abstract val list: MutableList<T>
 
