@@ -33,7 +33,7 @@ class GameActivity : BluetoothActivity() {
             if (controller != null) {
                 controller.hide(
                     WindowInsets.Type.statusBars() or
-                            WindowInsets.Type.navigationBars()
+                        WindowInsets.Type.navigationBars()
                 )
                 controller.systemBarsBehavior =
                     WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -66,7 +66,6 @@ class GameActivity : BluetoothActivity() {
 
             initGame()
         }
-
     }
 
     override fun callSuccess(value: Int) {
@@ -81,5 +80,4 @@ class GameActivity : BluetoothActivity() {
         gView.stopAndJoinThread()
         super.onBackPressed()
     }
-
 }

@@ -34,7 +34,6 @@ class Obstacle(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable
             }
 
             rotation += rotationDirection * rotationSpeed * deltaTimeMillis.toInt() / 1000
-
         } else {
             rotationDirection *= -1
         }
@@ -53,7 +52,6 @@ class Obstacle(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable
         x = Resources.getSystem().displayMetrics.widthPixels.toFloat()
         y = Random.nextFloat() * (Resources.getSystem().displayMetrics.heightPixels - h)
     }
-
 
     override fun doIntersect(target: Intersectable): Boolean {
         val intersect = super.doIntersect(target)

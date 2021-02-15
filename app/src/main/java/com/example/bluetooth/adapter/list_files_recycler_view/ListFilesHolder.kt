@@ -23,8 +23,6 @@ class ListFilesHolder(view: View) : RecyclerView.ViewHolder(view) {
             mContext.startActivity(intent)
 
 //            Toast.makeText(mContext, "Name : $name", Toast.LENGTH_SHORT).show()
-
         }
     }
-
 }

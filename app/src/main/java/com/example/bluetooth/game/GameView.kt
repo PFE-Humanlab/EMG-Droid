@@ -1,9 +1,5 @@
 package com.example.bluetooth.game
 
-import android.annotation.SuppressLint
-import android.content.res.Resources
-import android.view.MotionEvent
-import com.example.bluetooth.utils.uniformTransform
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
@@ -16,7 +12,8 @@ import com.example.bluetooth.activity.EndGameActivity
 import com.example.bluetooth.activity.GameActivity
 import com.example.bluetooth.utils.leftPad
 
-class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
+class GameView(context: Context, attributes: AttributeSet) :
+    SurfaceView(context, attributes),
     SurfaceHolder.Callback {
 
     private lateinit var gameLogic: GameLogic
@@ -33,12 +30,10 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     var delay: Int? = null
     var levelId: Int? = null
 
-
     init {
         // add callback
         holder.addCallback(this)
     }
-
 
     fun initGame() {
         gameLogic = GameLogic(
@@ -50,7 +45,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
             maxValue!!,
             delay!!
         ) { endGame() }
-
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -83,7 +77,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
                 e.printStackTrace()
             }
         }
-
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
@@ -97,7 +90,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     fun update(deltaTimeMillis: Long) {
         gameLogic.update(deltaTimeMillis)
     }
-
 
     private fun endGame() {
 
@@ -121,7 +113,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         intent.putExtra("levelId", levelId)
 
         context.startActivity(intent)
-
     }
 
 //    Debug : uncomment when you need to control with screen touch instead of EMG
@@ -165,7 +156,6 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         val minutes = (delta / 1000) / 60
         val minutesString = minutes.toString().leftPad(2, "0")
 
-
         val seconds = (delta / 1000) % 60
         val secondsString = seconds.toString().leftPad(2, "0")
 
@@ -184,8 +174,5 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
                 it.text = gameLogic.collisionsCount.toString()
             }
         }
-
     }
-
-
 }

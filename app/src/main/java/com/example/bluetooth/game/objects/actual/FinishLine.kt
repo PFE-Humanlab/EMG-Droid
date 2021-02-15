@@ -15,7 +15,5 @@ class FinishLine(private val gameLogic: GameLogic, private val distance: Int, im
     override fun tickUpdate(deltaTimeMillis: Long) {
 
         x = (distance - gameLogic.currentPos).toFloat()
-
     }
-
 }

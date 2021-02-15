@@ -32,7 +32,6 @@ class SelectDeviceActivity : AppCompatActivity() {
                 getString(R.string.unsupported_bluetooth),
                 Toast.LENGTH_SHORT
             ).show()
-
         } else {
 
             // Ask for Bluetooth
@@ -47,7 +46,6 @@ class SelectDeviceActivity : AppCompatActivity() {
                 setHasFixedSize(true)
                 adapter = RecyclerViewAdapter(context, bluetoothAdapter, playerName)
             }
-
         }
 
         loadButton.setOnClickListener {
@@ -55,7 +53,6 @@ class SelectDeviceActivity : AppCompatActivity() {
             intent.putExtra("playerName", playerName)
             loadButton.context.startActivity(intent)
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -64,6 +61,5 @@ class SelectDeviceActivity : AppCompatActivity() {
         val recList = recyclerList
 
         recList.adapter = bluetoothAdapter?.let { RecyclerViewAdapter(recList.context, it, playerName) }
-
     }
 }

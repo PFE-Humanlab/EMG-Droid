@@ -2,7 +2,6 @@ package com.example.bluetooth.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -69,7 +68,6 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
         }
 
         selectPlayerButton.setOnClickListener {
-            Log.i("TAG", "le choix est : $choice ")
             if (choice == createProfileChoice) {
                 selectPlayerButton.visibility = View.INVISIBLE
                 spinner.visibility = View.INVISIBLE
@@ -127,7 +125,6 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         choice = parent?.getItemAtPosition(position) as String
-
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -4,9 +4,9 @@ import android.content.res.Resources
 import android.graphics.BitmapFactory
 import com.example.bluetooth.R
 import com.example.bluetooth.game.objects.actual.FinishLine
+import com.example.bluetooth.game.objects.actual.Rocket
 import com.example.bluetooth.game.objects.actual.pool.GroupObstacles
 import com.example.bluetooth.game.objects.actual.pool.GroupStars
-import com.example.bluetooth.game.objects.actual.Rocket
 import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.Intersectable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
@@ -99,7 +99,6 @@ class GameLogic(
             val finishLine = FinishLine(this, distance, finishBitmap)
             listDrawable.add(Pair(finishLine, 0))
             listUpdatable.add(finishLine)
-
         }
 
         // register the game objects
@@ -121,7 +120,6 @@ class GameLogic(
         }
 
         listPlayerUpdatable.add(player)
-
     }
 
     fun update(deltaTimeMillis: Long) {
@@ -144,14 +142,13 @@ class GameLogic(
             listPlayerUpdatable.forEach {
                 it.playerUpdate(newInput)
             }
-
         }
 
         listUpdatable.forEach {
             it.tickUpdate(deltaTimeMillis)
         }
 
-        //Check for intersections for updated objects
+        // Check for intersections for updated objects
         listPlayersIntersectables.forEach { itOuter ->
             listObstaclesIntersectables.forEach {
 
@@ -165,8 +162,6 @@ class GameLogic(
         ) {
             endGame()
         }
-
-
     }
 
     fun setPause(paused: Boolean) {
@@ -183,5 +178,4 @@ class GameLogic(
         currentSpeed = max(currentSpeed - collisionPenalty, 0)
         collisionEffectTimer = collisionEffectDuration
     }
-
 }

@@ -1,6 +1,10 @@
 package com.example.bluetooth.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import com.example.bluetooth.database.models.Player
 import com.example.bluetooth.database.models.jointure.PlayerWithRecord
 import com.example.bluetooth.database.models.jointure.PlayerWithScore
@@ -30,6 +34,4 @@ interface PlayerDAO {
     @Transaction
     @Query("SELECT * FROM players WHERE playerName = :name")
     suspend fun getPlayerWithScore(name: String): PlayerWithScore
-
-
 }

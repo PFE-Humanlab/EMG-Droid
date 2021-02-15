@@ -23,5 +23,4 @@ abstract class PoolGameObjects<T : GameObject> : GameObject {
         val intersectedList = list.filter { it.doIntersect(target) }
         return intersectedList.isNotEmpty()
     }
-
 }

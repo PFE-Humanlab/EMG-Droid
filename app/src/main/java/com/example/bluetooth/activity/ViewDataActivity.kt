@@ -15,7 +15,6 @@ import kotlin.coroutines.CoroutineContext
 
 class ViewDataActivity : AppCompatActivity(), CoroutineScope {
 
-
     private lateinit var playerName: String
     override val coroutineContext: CoroutineContext
         get() {

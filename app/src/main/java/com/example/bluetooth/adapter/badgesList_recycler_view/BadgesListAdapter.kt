@@ -1,4 +1,4 @@
-package com.example.bluetooth.adapter.BadgesList_recycler_view
+package com.example.bluetooth.adapter.badgesList_recycler_view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import com.example.bluetooth.R
 import com.example.bluetooth.database.models.BestScore
 import com.example.bluetooth.database.models.Level
 
-class BadgesListAdapter(private val mContext : Context, val bestScoreList : List<BestScore>, val listLevels : List<Level>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class BadgesListAdapter(private val mContext: Context, private val bestScoreList: List<BestScore>, private val listLevels: List<Level>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -22,11 +22,9 @@ class BadgesListAdapter(private val mContext : Context, val bestScoreList : List
         }
 
         (holder as BadgesListHolder).bind(listLevels[position], bestScore, mContext)
-
     }
 
     override fun getItemCount(): Int {
         return listLevels.size
     }
-
 }
