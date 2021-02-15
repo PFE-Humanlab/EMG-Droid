@@ -32,10 +32,10 @@ jobs:
         arguments: build
 
     - name: Upload our APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: Release artifact
-          path: app/build/outputs/apk/debug/app-*.apk
+      uses: actions/upload-artifact@v2
+      with:
+        name: Release artifact
+        path: app/build/outputs/apk/debug/app-*.apk
 
     - name: Create Release
       id: create_release
