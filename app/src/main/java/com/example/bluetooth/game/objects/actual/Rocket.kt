@@ -9,7 +9,7 @@ class Rocket(private val minValue: Int, private val maxValue: Int, image: Bitmap
     BitmapDrawable(image), PlayerUpdatable {
 
     private var destination: Float = 0f
-    private val speed: Float = screenHeight.toFloat() / 1.3f
+    private val speed: Float = screenHeight.toFloat() / 1.5f
 
     private val topOffset = 128
     private val botOffset = 128

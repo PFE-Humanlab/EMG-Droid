@@ -11,9 +11,11 @@ import com.example.bluetooth.game.objects.interf.Drawable
 import com.example.bluetooth.game.objects.interf.Intersectable
 import com.example.bluetooth.game.objects.interf.PlayerUpdatable
 import com.example.bluetooth.game.objects.interf.Updatable
+import com.example.bluetooth.utils.Constant
 import com.example.bluetooth.utils.resizedBitmap
 import com.example.bluetooth.utils.rotatedBitmap
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 class GameLogic(
     resources: Resources,
@@ -45,8 +47,8 @@ class GameLogic(
     private var collisionPenalty: Int = 500
 
     private var paused: Boolean = false
-    private var needUpdate: Boolean = false
-    private var newInput: Int = 0
+
+    private var updateList: MutableList<Int> = mutableListOf()
 
     init {
 
@@ -125,18 +127,19 @@ class GameLogic(
             return
         }
 
-        val acceleration = (speed - currentSpeed)
-
-        currentSpeed += acceleration * deltaTimeMillis.toInt() / 1000
+        if (currentSpeed < speed) {
+            currentSpeed += speed / 100
+        }
+        if (currentSpeed > speed) {
+            currentSpeed = speed
+        }
 
         currentPos += currentSpeed * deltaTimeMillis.toInt() / 1000
 
         // update game objects
-        if (needUpdate) {
-            needUpdate = false
-
+        if (updateList.isNotEmpty()) {
             listPlayerUpdatable.forEach {
-                it.playerUpdate(newInput)
+                it.playerUpdate(updateList.average().roundToInt())
             }
         }
 
@@ -161,8 +164,11 @@ class GameLogic(
     }
 
     fun updatePlayer(value: Int) {
-        newInput = value
-        needUpdate = true
+        updateList.add(value)
+
+        while (updateList.size > Constant.nbElementRocketList) {
+            updateList.removeAt(0)
+        }
     }
 
     fun handleCollision() {

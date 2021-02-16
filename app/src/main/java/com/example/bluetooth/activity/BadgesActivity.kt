@@ -35,8 +35,14 @@ class BadgesActivity : AppCompatActivity(), CoroutineScope {
 
             val player = playerDAO.getPlayerByName(playerName)
 
-            val bestString: String = if (player.bestEndless < 0)
-                getString(R.string.best_endless_time, player.bestEndless.toString()) else
+            val min = (player.bestEndless / 1000) / 60
+            val sec = (player.bestEndless / 1000) % 60
+
+            val timeHolder = getString(R.string.time_holder, min.toString(), sec.toString())
+
+            val bestString: String = if (player.bestEndless > 0)
+                getString(R.string.best_endless_time, timeHolder)
+            else
                 getString(R.string.not_played_endless)
 
             bestEndlessTextView.text = bestString

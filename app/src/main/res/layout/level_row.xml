@@ -14,16 +14,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="137dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/medalImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:contentDescription="@string/medal"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/no_medal" />
@@ -32,8 +32,8 @@
                 android:id="@+id/levelTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginLeft="64dp"
                 android:layout_marginTop="16dp"
                 android:textSize="24sp"
                 app:layout_constraintStart_toEndOf="@+id/medalImageView"
@@ -54,9 +54,12 @@
                 android:id="@+id/medalTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/medalImageView"
                 app:layout_constraintStart_toStartOf="@+id/medalImageView"
+                app:layout_constraintTop_toBottomOf="@+id/medalImageView"
                 tools:text="Silver" />
 
             <TextView

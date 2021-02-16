@@ -43,4 +43,10 @@ class BackgroundStar(private val gameLogic: GameLogic, image: Bitmap) :
         x = Resources.getSystem().displayMetrics.widthPixels.toFloat()
         y = Random.nextFloat() * (Resources.getSystem().displayMetrics.heightPixels - h)
     }
+
+    fun reset(newX: Float) {
+        active = true
+        x = newX
+        y = Random.nextFloat() * (Resources.getSystem().displayMetrics.heightPixels - h)
+    }
 }

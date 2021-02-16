@@ -29,14 +29,15 @@ class LoginActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, C
 
     private suspend fun populateLevels(db: AppDatabase) {
         db.levelDAO().insertAll(
-            Level(1, 2, 5, 2), // 10 sec (dist * 10 / speed), 4 obst ( duration / (delay / 2))
-            Level(2, 3, 6, 4), // 15 sec, 6 obst
-            Level(3, 3, 8, 4), // 15 sec, 10 o
-            Level(4, 4, 6, 8), // 20 sec, 8 o
-            Level(5, 4, 8, 8), // 20 sec, 13 o
-            Level(6, 5, 6, 10), // 20 sec, 8 o
-            Level(7, 5, 8, 10), // 20 sec, 13 o
-            Level(8, 6, 8, 12) // 20 sec,8 o
+            Level(1, 2, 5, 2),
+            Level(2, 3, 6, 4),
+            Level(3, 3, 8, 4),
+            Level(4, 4, 6, 8),
+            Level(5, 4, 8, 8),
+            Level(6, 5, 6, 10),
+            Level(7, 5, 8, 10),
+            Level(8, 6, 8, 12),
+            Level(9, 8, 8, 16)
         )
     }
 

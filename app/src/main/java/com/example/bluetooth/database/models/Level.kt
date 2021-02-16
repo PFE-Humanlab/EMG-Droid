@@ -14,14 +14,24 @@ data class Level(
 ) {
     val threshold: Int
         get() {
-            val delay = frequency.uniformTransform(1, 10, Constant.freqMax, Constant.freqMin)
+            val delay = frequency
+                .uniformTransform(1, 10, Constant.freqMax, Constant.freqMin)
+                .toFloat() / 1000
 
-            val duration = Constant.distMultiplicand * distance / (speed.toFloat() * Constant.speedMultiplicand)
+            val distPixel = Constant.distMultiplicand * distance
+            val speedPixelPerSec =
+                speed.uniformTransform(1, 10, Constant.speedMin, Constant.speedMax) / 2
 
-            val qtObstacles = duration / delay
+            val durationSec = distPixel / speedPixelPerSec.toFloat()
 
-            val finalThreshold = (qtObstacles / 3).toInt() + 1
+            val qtObstacles = durationSec / delay
 
-            return if (finalThreshold < 3) 3 else finalThreshold
+            var finalThreshold = (qtObstacles / 3).toInt() + 1
+
+            if (finalThreshold < 3) {
+                finalThreshold = 3
+            }
+
+            return finalThreshold
         }
 }

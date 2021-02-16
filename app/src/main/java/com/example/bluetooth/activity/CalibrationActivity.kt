@@ -156,7 +156,10 @@ class CalibrationActivity :
 
         val intent = Intent(context, GameActivity::class.java)
 
-        intent.putExtra("speed", speed * Constant.speedMultiplicand)
+        intent.putExtra(
+            "speed",
+            speed.uniformTransform(1, 10, Constant.speedMin, Constant.speedMax)
+        )
 
         intent.putExtra("distance", dist * Constant.distMultiplicand)
         intent.putExtra("delay", freq.uniformTransform(1, 10, Constant.freqMax, Constant.freqMin))

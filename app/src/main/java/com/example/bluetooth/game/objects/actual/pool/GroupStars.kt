@@ -14,8 +14,7 @@ class GroupStars(
     private val gameLogic: GameLogic,
     delayObstacle: Int,
     private val listImage: List<Bitmap>
-) :
-    PoolGameObjects<BackgroundStar>(), Updatable {
+) : PoolGameObjects<BackgroundStar>(), Updatable {
 
     override val list: MutableList<BackgroundStar> = mutableListOf()
     override var xDraw: Float = 0f
@@ -25,6 +24,29 @@ class GroupStars(
 
     private var delay: Int = 0
 
+    init {
+        val starFreq = 1000 / delayBetweenStars
+
+        for (i in 1..(starFreq * 10)) {
+            val star = createNewStar()
+            star.reset(Random.nextFloat() * star.screenWidth)
+        }
+    }
+
+    private fun createNewStar(): BackgroundStar {
+        val image = listImage[Random.nextInt(listImage.size)]
+            .rotatedBitmap(Random.nextInt(360).toFloat())
+
+        val bitmap = image.resizedBitmap(
+            (image.height * Random.nextFloat().uniformTransform(0f, 1f, 0.5f, 1f)).toInt()
+        )
+
+        val freeStar = BackgroundStar(gameLogic, bitmap)
+        list.add(freeStar)
+
+        return freeStar
+    }
+
     override fun tickUpdate(deltaTimeMillis: Long) {
         delay -= deltaTimeMillis.toInt()
 
@@ -32,20 +54,7 @@ class GroupStars(
             var freeStar = list.find { !it.active }
 
             if (freeStar == null) {
-                val image = listImage[Random.nextInt(listImage.size)]
-                    .rotatedBitmap(Random.nextInt(360).toFloat())
-
-                val bitmap = image.resizedBitmap(
-                    (
-                        image.height * Random.nextFloat().uniformTransform(
-                            0f, 1f,
-                            0.5f, 1f
-                        )
-                        ).toInt()
-                )
-
-                freeStar = BackgroundStar(gameLogic, bitmap)
-                list.add(freeStar)
+                freeStar = createNewStar()
             }
 
             freeStar.reset()
