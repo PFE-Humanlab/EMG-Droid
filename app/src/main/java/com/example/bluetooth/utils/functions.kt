@@ -5,6 +5,7 @@ import android.graphics.Matrix
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 fun String.leftPad(wantedLength: Int, character: String = " "): String {
     var i = 0
@@ -65,4 +66,18 @@ fun Float.uniformTransform(minInt: Float, maxInit: Float, minFinal: Float, maxFi
 
     // [0, maxF - minF] + minF => [minF, maxF]
     return sized + minFinal
+}
+
+fun Int.uniformTransform(minInt: Int, maxInit: Int, minFinal: Int, maxFinal: Int): Int {
+    // this € [min , Max]
+
+    // [min , Max] - min => [0, max - min]
+    val centered = this - minInt
+    // [0, max - min] / (max - min) => [0, 1]
+    val reduced = centered / (maxInit - minInt).toFloat()
+    // [0, 1] * (maxF - minF) => [0, maxF - minF]
+    val sized = reduced * (maxFinal - minFinal)
+
+    // [0, maxF - minF] + minF => [minF, maxF]
+    return (sized + minFinal).roundToInt()
 }

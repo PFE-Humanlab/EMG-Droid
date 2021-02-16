@@ -13,8 +13,7 @@ import com.example.bluetooth.activity.GameActivity
 import com.example.bluetooth.utils.leftPad
 
 class GameView(context: Context, attributes: AttributeSet) :
-    SurfaceView(context, attributes),
-    SurfaceHolder.Callback {
+    SurfaceView(context, attributes), SurfaceHolder.Callback {
 
     private lateinit var gameLogic: GameLogic
 
@@ -115,7 +114,7 @@ class GameView(context: Context, attributes: AttributeSet) :
         context.startActivity(intent)
     }
 
-//    Debug : uncomment when you need to control with screen touch instead of EMG
+    //    Debug : uncomment when you need to control with screen touch instead of EMG
 //    @SuppressLint("ClickableViewAccessibility")
 //    override fun onTouchEvent(event: MotionEvent?): Boolean {
 //
@@ -141,7 +140,7 @@ class GameView(context: Context, attributes: AttributeSet) :
     /**
      * Everything that has to be drawn on Canvas
      */
-    override fun draw(canvas: Canvas) {
+    fun drawGame(canvas: Canvas) {
         // Draw game objects
         super.draw(canvas)
 
@@ -154,9 +153,9 @@ class GameView(context: Context, attributes: AttributeSet) :
         val delta = (System.nanoTime() / 1000000) - gameLogic.startTime
 
         val minutes = (delta / 1000) / 60
-        val minutesString = minutes.toString().leftPad(2, "0")
-
         val seconds = (delta / 1000) % 60
+
+        val minutesString = minutes.toString().leftPad(2, "0")
         val secondsString = seconds.toString().leftPad(2, "0")
 
         activity?.runOnUiThread {

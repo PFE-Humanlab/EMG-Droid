@@ -13,6 +13,8 @@ import com.example.bluetooth.database.AppDatabase
 import com.example.bluetooth.database.models.Level
 import com.example.bluetooth.database.models.jointure.PlayerWithScore
 import com.example.bluetooth.utils.BluetoothActivity
+import com.example.bluetooth.utils.Constant
+import com.example.bluetooth.utils.uniformTransform
 import kotlinx.android.synthetic.main.activity_calibration.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +38,7 @@ class CalibrationActivity :
     private var maxValue = 0
 
     private var speedProgress = 1
-    private var delayProgress = 1
+    private var frequencyProgress = 1
 
     private lateinit var levelList: List<Level>
 
@@ -51,8 +53,8 @@ class CalibrationActivity :
         speedBar.visibility = visEndless
         speedValueText.visibility = visEndless
         speedText.visibility = visEndless
-        delayBar.visibility = visEndless
-        delayValueText.visibility = visEndless
+        frequencyBar.visibility = visEndless
+        frequencyValueText.visibility = visEndless
         delayText.visibility = visEndless
     }
 
@@ -100,7 +102,7 @@ class CalibrationActivity :
             })
         }
 
-        delayBar.apply {
+        frequencyBar.apply {
             max = 9
             progress = 0
 
@@ -110,11 +112,11 @@ class CalibrationActivity :
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    delayProgress = progress + 1
+                    frequencyProgress = progress + 1
 
-                    val delayV = parent.findViewById<TextView>(R.id.delayValueText)
-                    delayV?.let {
-                        it.text = delayProgress.toString()
+                    val freqV = parent.findViewById<TextView>(R.id.frequencyValueText)
+                    freqV?.let {
+                        it.text = frequencyProgress.toString()
                     }
                 }
 
@@ -124,6 +126,7 @@ class CalibrationActivity :
         }
 
         toggleEndless(false)
+
         launch {
             levelList = db.levelDAO().getAll()
             val playerWithScore = db.playerDAO().getPlayerWithScore(playerName)
@@ -133,9 +136,9 @@ class CalibrationActivity :
         startGameButton.setOnClickListener {
             val mContext = it.context
             if (isEndless) {
-                changeActivity(mContext, speedProgress, -1, delayProgress)
+                changeActivity(mContext, speedProgress, -1, frequencyProgress)
             } else {
-                changeActivity(mContext, choice.speed, choice.distance, choice.delay)
+                changeActivity(mContext, choice.speed, choice.distance, choice.frequency)
             }
         }
 
@@ -149,14 +152,14 @@ class CalibrationActivity :
         }
     }
 
-    private fun changeActivity(context: Context, speed: Int, dist: Int, delay: Int) {
+    private fun changeActivity(context: Context, speed: Int, dist: Int, freq: Int) {
 
         val intent = Intent(context, GameActivity::class.java)
 
-        intent.putExtra("speed", speed * 100)
+        intent.putExtra("speed", speed * Constant.speedMultiplicand)
 
-        intent.putExtra("distance", dist * 1000)
-        intent.putExtra("delay", delay * 500)
+        intent.putExtra("distance", dist * Constant.distMultiplicand)
+        intent.putExtra("delay", freq.uniformTransform(1, 10, Constant.freqMax, Constant.freqMin))
 
         intent.putExtra("levelId", choice.levelId)
 
@@ -174,7 +177,8 @@ class CalibrationActivity :
 
         selectLevelSpinner.onItemSelectedListener = this
 
-        val newLevelId = playerWithScore.levels.maxOf { it.levelId } + 1
+        val levels = playerWithScore.levels
+        val newLevelId = if (levels.isEmpty()) 1 else levels.maxOf { it.levelId } + 1
 
         val spinnerAdapter =
             LevelArrayAdapter(

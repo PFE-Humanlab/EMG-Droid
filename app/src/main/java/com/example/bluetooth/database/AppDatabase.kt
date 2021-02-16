@@ -15,7 +15,7 @@ import com.example.bluetooth.database.models.Level
 import com.example.bluetooth.database.models.Player
 import com.example.bluetooth.database.models.Record
 
-@Database(entities = [Player::class, Level::class, Record::class, BestScore::class], version = 5)
+@Database(entities = [Player::class, Level::class, Record::class, BestScore::class], version = 6, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
 

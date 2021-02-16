@@ -18,7 +18,7 @@ import kotlin.math.max
 class GameLogic(
     resources: Resources,
     private val speed: Int,
-    private val distance: Int,
+    distance: Int,
     private val endless: Boolean,
     minValue: Int,
     maxValue: Int,
@@ -35,16 +35,14 @@ class GameLogic(
 
     val listDrawable: MutableList<Pair<Drawable, Int>> = mutableListOf()
 
+    private val rocket: Rocket
+
     private val listUpdatable: MutableList<Updatable> = mutableListOf()
 
-    private val listPlayersIntersectables: MutableList<Intersectable> = mutableListOf()
-    private val listObstaclesIntersectables: MutableList<Intersectable> = mutableListOf()
+    private val listIntersectables: MutableList<Intersectable> = mutableListOf()
     private val listPlayerUpdatable: MutableList<PlayerUpdatable> = mutableListOf()
 
     private var collisionPenalty: Int = 500
-
-    private var collisionEffectTimer: Int = 0
-    private val collisionEffectDuration: Int = 100
 
     private var paused: Boolean = false
     private var needUpdate: Boolean = false
@@ -54,8 +52,7 @@ class GameLogic(
 
         // init lists
         listDrawable.removeAll { true }
-        listPlayersIntersectables.removeAll { true }
-        listObstaclesIntersectables.removeAll { true }
+        listIntersectables.removeAll { true }
         listUpdatable.removeAll { true }
         listPlayerUpdatable.removeAll { true }
 
@@ -63,7 +60,6 @@ class GameLogic(
         currentSpeed = 0
         currentPos = 0
         collisionsCount = 0
-        collisionEffectTimer = 0
 
         paused = false
 
@@ -74,7 +70,7 @@ class GameLogic(
         // load images
         val obstacleBitmap = BitmapFactory
             .decodeResource(resources, R.drawable.asteroide)
-            .resizedBitmap(screenHeight / 20)
+            .resizedBitmap(screenHeight / 15)
         val playerBitmap = BitmapFactory.decodeResource(resources, R.drawable.fusee)
             .resizedBitmap(screenHeight / 10)
             .rotatedBitmap(90f)
@@ -91,35 +87,35 @@ class GameLogic(
         )
 
 //         Setup the game objects
-        val player = Rocket(minValue, maxValue, playerBitmap)
+        rocket = Rocket(minValue, maxValue, playerBitmap)
         val groupObstacles = GroupObstacles(this, delayOfObstacles, obstacleBitmap)
         val backgroundStar = GroupStars(this, delayOfObstacles, listStars)
 
         if (!endless) {
-            val finishLine = FinishLine(this, distance, finishBitmap)
+            val finishLine = FinishLine(this, distance, endGame, finishBitmap)
             listDrawable.add(Pair(finishLine, 0))
             listUpdatable.add(finishLine)
+            listIntersectables.add(finishLine)
         }
 
         // register the game objects
         listDrawable.apply {
             add(Pair(backgroundStar, -1))
             add(Pair(groupObstacles, 0))
-            add(Pair(player, 1))
+            add(Pair(rocket, 1))
         }
 
         listDrawable.sortBy { it.second }
 
-        listObstaclesIntersectables.add(groupObstacles)
-        listPlayersIntersectables.add(player)
+        listIntersectables.add(groupObstacles)
 
         listUpdatable.apply {
             add(backgroundStar)
             add(groupObstacles)
-            add(player)
+            add(rocket)
         }
 
-        listPlayerUpdatable.add(player)
+        listPlayerUpdatable.add(rocket)
     }
 
     fun update(deltaTimeMillis: Long) {
@@ -149,17 +145,13 @@ class GameLogic(
         }
 
         // Check for intersections for updated objects
-        listPlayersIntersectables.forEach { itOuter ->
-            listObstaclesIntersectables.forEach {
-
-                itOuter.doIntersect(it)
-                it.doIntersect(itOuter)
-            }
+        listIntersectables.forEach {
+            rocket.doIntersect(it)
+            it.doIntersect(rocket)
         }
 
         // Check if game is over
-        if ((endless && collisionsCount > 10) || (!endless && currentPos > distance)
-        ) {
+        if (endless && collisionsCount >= 10) {
             endGame()
         }
     }
@@ -176,6 +168,5 @@ class GameLogic(
     fun handleCollision() {
         collisionsCount++
         currentSpeed = max(currentSpeed - collisionPenalty, 0)
-        collisionEffectTimer = collisionEffectDuration
     }
 }

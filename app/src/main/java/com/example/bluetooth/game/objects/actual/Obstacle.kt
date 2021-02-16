@@ -50,7 +50,10 @@ class Obstacle(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable
         alreadyCollided = false
         active = true
         x = Resources.getSystem().displayMetrics.widthPixels.toFloat()
-        y = Random.nextFloat() * (Resources.getSystem().displayMetrics.heightPixels - h)
+
+        val rand0to1 = Random.nextFloat()
+        val ratio = rand0to1 * rand0to1 * (screenHeight - h)
+        y = screenHeight - ratio
     }
 
     override fun doIntersect(target: Intersectable): Boolean {
@@ -60,6 +63,7 @@ class Obstacle(private val gameLogic: GameLogic, image: Bitmap) : BitmapDrawable
             alreadyCollided = true
             gameLogic.handleCollision()
         }
+
         return intersect
     }
 }

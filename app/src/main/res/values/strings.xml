@@ -21,7 +21,7 @@
     <string name="default_seek_bar_value">1</string>
     <string name="time">Time</string>
     <string name="collisions">Collisions</string>
-    <string name="delay_between_obstacles">Delay between obstacles</string>
+    <string name="frequency_obstacles">Frequency of obstacles</string>
     <string name="title_activity_end_game">EndGameActivity</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>

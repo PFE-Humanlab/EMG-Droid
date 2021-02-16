@@ -14,7 +14,7 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
     fun setRunning(isRunning: Boolean) {
         synchronized(running) {
-            this.running = isRunning
+            running = isRunning
         }
     }
 
@@ -35,14 +35,14 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
             try {
                 // locking the canvas allows us to draw on to it
-                canvas = this.surfaceHolder.lockCanvas()
-
-                synchronized(surfaceHolder) {
-                    timeUpdate = System.nanoTime()
-                    this.gameView.update((timeUpdate - timeLastUpdate) / 1000000)
-                    timeLastUpdate = timeUpdate
-
-                    this.gameView.draw(canvas!!)
+                canvas = surfaceHolder.lockCanvas()
+                if (canvas != null) {
+                    synchronized(surfaceHolder) {
+                        timeUpdate = System.nanoTime()
+                        gameView.update((timeUpdate - timeLastUpdate) / 1000000)
+                        timeLastUpdate = timeUpdate
+                        gameView.drawGame(canvas)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -9,39 +9,42 @@ class Rocket(private val minValue: Int, private val maxValue: Int, image: Bitmap
     BitmapDrawable(image), PlayerUpdatable {
 
     private var destination: Float = 0f
-
     private val speed: Float = screenHeight.toFloat() / 1.3f
 
-    private val topOffset = 96
-    private val botOffset = 96
+    private val topOffset = 128
+    private val botOffset = 128
+    private val topToBotOffset = screenHeight - botOffset
 
     private val leftOffset = 32
 
     override fun playerUpdate(value: Int) {
-        destination = value.toFloat().uniformTransform(
-            minValue.toFloat(),
-            maxValue.toFloat(),
-            (screenHeight - botOffset).toFloat(),
-            topOffset.toFloat()
-        )
+        destination = value.uniformTransform(
+            minValue,
+            maxValue,
+            topToBotOffset,
+            topOffset
+        ).toFloat()
     }
 
     override fun tickUpdate(deltaTimeMillis: Long) {
         // snap to boundary
         val topFloat = topOffset.toFloat()
+        val topToBotFloat = topToBotOffset.toFloat()
+
         if (y < topFloat) {
             y = topFloat
+        } else if (y + h > topToBotFloat) {
+            y = topToBotFloat - h
         }
-        val botFloat = (screenHeight - h - botOffset).toFloat()
-        if (y + h > botFloat) {
-            y = botFloat
-        }
+
         x = leftOffset.toFloat()
+
         // update position : go to destination
+        val amountToMove = speed * deltaTimeMillis / 1000
         if (y + h < destination) {
-            y += speed * deltaTimeMillis / 1000
+            y += amountToMove
         } else if (y > destination) {
-            y -= speed * deltaTimeMillis / 1000
+            y -= amountToMove
         }
     }
 }

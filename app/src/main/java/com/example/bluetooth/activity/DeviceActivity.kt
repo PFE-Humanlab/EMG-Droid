@@ -115,6 +115,8 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
         isRecording = true
         startButton.text = getString(R.string.stop_recording)
         measureName.isEnabled = false
+
+        startCalibrButton.isEnabled = false
     }
 
     private fun stopRecording() {
@@ -122,6 +124,7 @@ class DeviceActivity : BluetoothActivity(), CoroutineScope {
 
         startButton.text = getString(R.string.start_recording)
         measureName.isEnabled = true
+        startCalibrButton.isEnabled = true
 
         // save to text file
         val measureName = measureName.text.toString()

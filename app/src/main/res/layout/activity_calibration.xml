@@ -132,13 +132,13 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="@string/delay_between_obstacles"
-        app:layout_constraintEnd_toStartOf="@+id/delayBar"
+        android:text="@string/frequency_obstacles"
+        app:layout_constraintEnd_toStartOf="@+id/frequencyBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedBar" />
 
     <SeekBar
-        android:id="@+id/delayBar"
+        android:id="@+id/frequencyBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
@@ -146,12 +146,12 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        app:layout_constraintEnd_toStartOf="@+id/delayValueText"
+        app:layout_constraintEnd_toStartOf="@+id/frequencyValueText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedBar" />
 
     <TextView
-        android:id="@+id/delayValueText"
+        android:id="@+id/frequencyValueText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
